@@ -323,7 +323,9 @@ window.DataFetcher = (function() {
      */
     function parseRechargeRow(row) {
         // Minimum 4 columns required: Member ID, Order Number, Record Time, Change Amount
-        if (!row || row.length < 4) return null;
+        if (!row || row.length < 4) {
+            return null;
+        }
         
         // Skip header row - check for common header keywords
         const firstCell = (row[0] || '').toLowerCase();
@@ -346,6 +348,12 @@ window.DataFetcher = (function() {
         
         // Validate game ID (must be 10 digits)
         if (!gameId || !/^\d{10}$/.test(gameId)) {
+            // Debug: Log if gameId validation fails (only first few times)
+            if (window._rechargeDebugCount === undefined) window._rechargeDebugCount = 0;
+            if (window._rechargeDebugCount < 3) {
+                console.log(`❌ Recharge row rejected - invalid gameId: "${gameId}" (len=${gameId.length})`);
+                window._rechargeDebugCount++;
+            }
             return null;
         }
         
@@ -385,8 +393,13 @@ window.DataFetcher = (function() {
             }
         }
         
-        // Skip if missing critical data
+        // Skip if missing critical data - log reason
         if (!rechargeId || !rechargeTime || amount === 0) {
+            if (window._rechargeDebugCount2 === undefined) window._rechargeDebugCount2 = 0;
+            if (window._rechargeDebugCount2 < 3) {
+                console.log(`❌ Recharge row rejected - missing data: rechargeId=${!!rechargeId}, rechargeTime=${!!rechargeTime}, amount=${amount}, raw=[${timestampStr}]`);
+                window._rechargeDebugCount2++;
+            }
             return null;
         }
 
@@ -411,12 +424,20 @@ window.DataFetcher = (function() {
     function parseRechargeCSVForPlatform(csvText, platform) {
         const lines = csvText.split(/\r?\n/).filter(Boolean);
         
+        console.log(`🔍 [${platform}] CSV has ${lines.length} lines`);
+        
         if (lines.length <= 1) {
+            console.warn(`⚠️ [${platform}] CSV has no data rows (only header or empty)`);
             return [];
         }
 
         const delimiter = AdminCore.detectDelimiter(lines[0]);
+        console.log(`🔍 [${platform}] Detected delimiter: "${delimiter === ',' ? 'comma' : delimiter}"`);
+        console.log(`🔍 [${platform}] Header: ${lines[0].substring(0, 100)}...`);
+        
         const recharges = [];
+        let skipped = 0;
+        let parseErrors = [];
 
         for (let i = 1; i < lines.length; i++) {
             const row = AdminCore.parseCSVLine(lines[i], delimiter);
@@ -425,7 +446,32 @@ window.DataFetcher = (function() {
                 // Add platform info to each recharge for proper validation matching
                 recharge.platform = platform;
                 recharges.push(recharge);
+            } else {
+                skipped++;
+                // Log first few skipped rows for debugging
+                if (parseErrors.length < 3) {
+                    parseErrors.push({
+                        line: i + 1,
+                        row0: row[0],
+                        row1: row[1]?.substring(0, 20),
+                        row2: row[2],
+                        row3: row[3],
+                        rowLen: row.length
+                    });
+                }
             }
+        }
+
+        console.log(`✅ [${platform}] Parsed ${recharges.length} recharges, skipped ${skipped} rows`);
+        if (parseErrors.length > 0) {
+            console.log(`🔍 [${platform}] Sample skipped rows:`, parseErrors);
+        }
+        if (recharges.length > 0) {
+            console.log(`🔍 [${platform}] First recharge:`, {
+                gameId: recharges[0].gameId,
+                amount: recharges[0].amount,
+                time: recharges[0].rechargeTimeRaw
+            });
         }
 
         return recharges;
@@ -457,15 +503,21 @@ window.DataFetcher = (function() {
             const fetchPromises = [];
 
             for (const [platform, url] of Object.entries(RECHARGE_SHEET_URLS)) {
+                console.log(`🌐 [${platform}] Fetching from: ${url.substring(0, 80)}...`);
                 fetchPromises.push(
                     fetchCSV(url)
                         .then(csvText => {
+                            console.log(`📄 [${platform}] Received ${csvText.length} characters of CSV data`);
+                            if (csvText.length < 100) {
+                                console.warn(`⚠️ [${platform}] CSV seems too short: "${csvText.substring(0, 200)}"`);
+                            }
                             const platformRecharges = parseRechargeCSVForPlatform(csvText, platform);
-                            console.log(`📥 Fetched ${platformRecharges.length} recharges from ${platform}`);
+                            console.log(`📥 [${platform}] Parsed ${platformRecharges.length} recharges`);
                             return platformRecharges;
                         })
                         .catch(error => {
-                            console.error(`Error fetching recharges for ${platform}:`, error);
+                            console.error(`❌ [${platform}] FETCH ERROR:`, error.message || error);
+                            console.error(`❌ [${platform}] URL was: ${url}`);
                             return []; // Return empty array on error to not break the whole fetch
                         })
                 );

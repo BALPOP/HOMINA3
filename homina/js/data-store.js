@@ -286,6 +286,25 @@ window.DataStore = (function() {
             AdminCore.updateLoadingProgress(30, 'Fetching recharges...');
             const recharges = await DataFetcher.fetchRecharges(isFirstLoad || forceRefresh);
             
+            console.log(`🔄 DataStore: Received ${recharges.length} recharges from DataFetcher`);
+            if (recharges.length > 0) {
+                console.log(`🔄 DataStore: First recharge sample:`, {
+                    gameId: recharges[0].gameId,
+                    platform: recharges[0].platform,
+                    amount: recharges[0].amount
+                });
+                // Count by platform
+                const byPlatform = { POPLUZ: 0, POPN1: 0, other: 0 };
+                recharges.forEach(r => {
+                    if (r.platform === 'POPLUZ') byPlatform.POPLUZ++;
+                    else if (r.platform === 'POPN1') byPlatform.POPN1++;
+                    else byPlatform.other++;
+                });
+                console.log(`🔄 DataStore: Recharges by platform:`, byPlatform);
+            } else {
+                console.error('❌ DataStore: NO RECHARGES LOADED! Check console for fetch errors.');
+            }
+            
             AdminCore.updateLoadingProgress(50, 'Fetching results...');
             const results = await ResultsFetcher.fetchResults(isFirstLoad || forceRefresh);
 
@@ -353,6 +372,7 @@ window.DataStore = (function() {
 
     /**
      * Perform actual validation logic
+     * CRITICAL: Must match by PLATFORM + GAME_ID to prevent cross-platform validation!
      * @param {Object} entry - Entry to validate
      * @returns {Object} Validation result
      */
@@ -363,11 +383,20 @@ window.DataStore = (function() {
             return { status: 'INVALID', reason: 'No Game ID', isCutoff: false };
         }
 
-        // Find recharges for this game ID
-        const playerRecharges = recharges.filter(r => r.gameId === entry.gameId);
+        // Get entry's platform (default to POPN1 if not specified)
+        const entryPlatform = (entry.platform || 'POPN1').toUpperCase();
+
+        // ⚠️ CRITICAL: Find recharges matching BOTH gameId AND platform
+        // This prevents POPLUZ entries from matching POPN1 recharges!
+        const playerRecharges = recharges.filter(r => {
+            if (r.gameId !== entry.gameId) return false;
+            // Match platform (recharges without platform match any entry)
+            const rechargePlatform = (r.platform || '').toUpperCase();
+            return !rechargePlatform || rechargePlatform === entryPlatform;
+        });
         
         if (playerRecharges.length === 0) {
-            return { status: 'INVALID', reason: 'No recharge found', isCutoff: false };
+            return { status: 'INVALID', reason: 'No recharge found for this platform', isCutoff: false };
         }
 
         // Check for valid recharge timing

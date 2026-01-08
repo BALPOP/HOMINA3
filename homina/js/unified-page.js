@@ -2046,10 +2046,18 @@ window.UnifiedPage = (function () {
         });
         document.getElementById('btnExportWinnersCSV')?.addEventListener('click', exportWinnersCSV);
 
-        // Clear cache button
+        // Clear cache button - clears ALL caches and forces fresh data load
         document.getElementById('clearCacheBtn')?.addEventListener('click', () => {
+            console.log('🗑️ Clearing all caches...');
+            // Clear localStorage
             DataStore.clearStorage();
-            AdminCore.showToast('Cache cleared! Refreshing...', 'success');
+            // Clear in-memory caches
+            DataFetcher.clearCache();
+            ResultsFetcher.clearCache();
+            // Reset debug counters
+            window._rechargeDebugCount = 0;
+            window._rechargeDebugCount2 = 0;
+            AdminCore.showToast('All caches cleared! Refreshing...', 'success');
             setTimeout(() => loadAllData(true), 500);
         });
     }
