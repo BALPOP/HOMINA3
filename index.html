@@ -2004,119 +2004,7 @@
     </section>
 
     <!-- ==========================================
-         POPLUZ MULTI-DESIGN SECTIONS
-         Design 1: Midnight Casino (Template 3)
-         Design 2: Golden Gala (Template 4)
-         ========================================== -->
-    
-    <!-- Design Selector FAB -->
-    <div class="design-selector-fab" id="designSelectorFab">
-        <button class="design-btn design-btn-midnight active" data-design="midnight" title="Midnight Casino Theme">🎲</button>
-        <button class="design-btn design-btn-gala" data-design="gala" title="Golden Gala Theme">🎁</button>
-    </div>
-    
-    <!-- ==========================================
-         DESIGN 1: MIDNIGHT CASINO (Template 3)
-         ========================================== -->
-    <section class="popluz-section popluz-design-container" id="popluzMidnight">
-        <div class="popluz-midnight">
-            <!-- Header -->
-            <header class="mc-header">
-                <div class="mc-container">
-                    <div class="mc-header-content">
-                        <div class="mc-logo-area">
-                            <div class="mc-logo-icon">🎲</div>
-                        </div>
-                        <nav class="mc-nav">
-                            <a href="https://t.me/+DXK0BQBTz9YzM2Ux">Canal Oficial</a>
-                            <a href="https://t.me/+r8QbQP7IGmxjZWUx">Grupo VIP</a>
-                            <a href="https://wa.popsorte.vip/grupo">WhatsApp</a>
-                        </nav>
-                    </div>
-                </div>
-            </header>
-            
-            <!-- Hero Section -->
-            <section class="mc-hero">
-                <div class="mc-container">
-                    <div class="mc-hero-grid">
-                        <div class="mc-hero-content">
-                            <div class="mc-casino-badge">
-                                <div class="mc-badge-chips">
-                                    <span class="mc-chip mc-chip-gold">$</span>
-                                    <span class="mc-chip mc-chip-purple">♠</span>
-                                    <span class="mc-chip mc-chip-blue">♦</span>
-                                </div>
-                                <span class="mc-badge-text">CASSINO VIP</span>
-                                <span class="mc-badge-live">LIVE</span>
-                            </div>
-                            
-                            <h2 class="mc-hero-title">
-                                <span class="mc-title-line mc-title-neon">GRUPO VIP EXCLUSIVO</span>
-                            </h2>
-                            
-                            <p class="mc-hero-description">
-                                Entrou, já começa a concorrer!<br>
-                                🎡 Roletas diárias + eventos VIP<br>
-                                📱 Prêmios como iPhone 17 Pro Max<br>
-                                💰 Depósito + jogador ativo = chance TODOS OS DIAS<br>
-                                👉 VIP não assiste, VIP ganha
-                            </p>
-                            
-                            <div class="mc-benefits">
-                                <h3>💰 Como participar?</h3>
-                                <p style="color: var(--mc-text-dim); font-size: 14px; line-height: 1.6; margin-top: 10px;">
-                                    Basta fazer um depósito e se manter ativo na plataforma para concorrer todos os dias a prêmios extras, bônus exclusivos e ainda garantir aquele saque que faz a diferença 🚀🍀
-                                </p>
-                            </div>
-                            
-                            <div class="mc-cta-group" style="margin-top: 20px;">
-                                <a href="https://popluz6n.com?ch=40617" class="mc-btn mc-btn-neon" target="_blank">
-                                    🎰 JOGAR AGORA
-                                </a>
-                                <a href="https://t.me/+DXK0BQBTz9YzM2Ux" class="mc-btn mc-btn-cyber" target="_blank">
-                                    📡 CANAL OFICIAL
-                                </a>
-                            </div>
-                        </div>
-                        
-                        <div class="mc-preview-card">
-                            <div class="mc-preview-header">
-                                <div class="mc-preview-title">
-                                    <span class="mc-cards-icon">🃏</span>
-                                    <h3>DESTAQUES POPLUZ</h3>
-                                </div>
-                            </div>
-                            <div class="mc-slider-container">
-                                <div class="mc-slider-viewport">
-                                    <div class="mc-slider-wrapper" id="mcSlider">
-                                        <div class="mc-slide"><img src="media/1.jpg" alt="Roleta Comissão"></div>
-                                        <div class="mc-slide"><img src="media/2.jpg" alt="Roleta Diária"></div>
-                                        <div class="mc-slide"><img src="media/3.jpg" alt="Roleta Slot"></div>
-                                        <div class="mc-slide"><img src="media/4.jpg" alt="Premium VIP"></div>
-                                        <div class="mc-slide"><img src="media/5.jpg" alt="Aniversário"></div>
-                                        <div class="mc-slide"><img src="media/6.jpg" alt="Roda da Fortuna"></div>
-                                    </div>
-                                </div>
-                                <div class="mc-dots" id="mcDots"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            
-            <!-- Footer -->
-            <footer class="mc-footer">
-                <div class="mc-container">
-                    <p>Plataforma Premium de Jogos</p>
-                    <p class="mc-footer-warning">Jogue com responsabilidade | +18</p>
-                </div>
-            </footer>
-        </div>
-    </section>
-    
-    <!-- ==========================================
-         DESIGN 2: GOLDEN GALA (Template 4)
+         POPLUZ SECTION - GOLDEN GALA DESIGN
          ========================================== -->
     <section class="popluz-section popluz-design-container" id="popluzGala">
         <div class="popluz-gala">
@@ -2338,159 +2226,45 @@
     <script src="pop-sorte.js" defer></script>
     
     <!-- ==========================================
-         POPLUZ MULTI-DESIGN JAVASCRIPT
-         Handles design switching and sliders
+         POPLUZ GOLDEN GALA SLIDER JAVASCRIPT
          ========================================== -->
     <script>
     (function() {
         'use strict';
         
         /**
-         * POPLUZ Multi-Design Controller
-         * Manages design switching between Midnight Casino and Golden Gala themes
+         * POPLUZ Golden Gala Slider Controller
          */
         document.addEventListener('DOMContentLoaded', function() {
-            // Design Elements
-            const designFab = document.getElementById('designSelectorFab');
-            const designBtns = document.querySelectorAll('.design-btn');
-            const midnightSection = document.getElementById('popluzMidnight');
             const galaSection = document.getElementById('popluzGala');
             
-            // Current design state (persisted in localStorage)
-            let currentDesign = localStorage.getItem('popluzDesign') || 'midnight';
-            
-            /**
-             * Initialize the design based on saved preference
-             */
-            function initDesign() {
-                switchDesign(currentDesign);
-            }
-            
-            /**
-             * Switch between designs
-             * @param {string} design - 'midnight' or 'gala'
-             */
-            function switchDesign(design) {
-                currentDesign = design;
-                localStorage.setItem('popluzDesign', design);
-                
-                // Update section visibility
-                if (design === 'midnight') {
-                    midnightSection.classList.add('active');
-                    midnightSection.style.display = 'block';
-                    galaSection.classList.remove('active');
-                    galaSection.style.display = 'none';
-                } else {
-                    midnightSection.classList.remove('active');
-                    midnightSection.style.display = 'none';
+            // Initialize Golden Gala section when POPLUZ button is clicked
+            window.addEventListener('popluzSectionShown', function() {
+                if (galaSection) {
                     galaSection.classList.add('active');
                     galaSection.style.display = 'block';
+                    // Initialize slider after section is shown
+                    setTimeout(initGgSlider, 200);
                 }
-                
-                // Update button states
-                designBtns.forEach(btn => {
-                    btn.classList.toggle('active', btn.dataset.design === design);
-                });
-            }
+            });
             
-            // Design button click handlers
-            designBtns.forEach(btn => {
-                btn.addEventListener('click', function() {
-                    switchDesign(this.dataset.design);
+            // Also initialize if section becomes visible via other means
+            const observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+                        const isVisible = mutation.target.style.display === 'block' || 
+                                         mutation.target.style.display === '';
+                        if (isVisible && mutation.target.id === 'popluzGala') {
+                            mutation.target.classList.add('active');
+                            setTimeout(initGgSlider, 200);
+                        }
+                    }
                 });
             });
             
-            /**
-             * Show/hide design FAB based on POPLUZ section visibility
-             * Integrates with existing navigation system
-             */
-            function updateFabVisibility() {
-                const isPopluzVisible = midnightSection.style.display !== 'none' || 
-                                        galaSection.style.display !== 'none';
-                if (isPopluzVisible) {
-                    designFab.classList.add('visible');
-                } else {
-                    designFab.classList.remove('visible');
-                }
-            }
-            
-            // Listen for popluz section being shown
-            window.addEventListener('popluzSectionShown', function() {
-                initDesign();
-            });
-            
-            // Observer to watch for section visibility changes
-            const observer = new MutationObserver(updateFabVisibility);
-            if (midnightSection) {
-                observer.observe(midnightSection, { attributes: true, attributeFilter: ['style'] });
-            }
             if (galaSection) {
-                observer.observe(galaSection, { attributes: true, attributeFilter: ['style'] });
+                observer.observe(galaSection, { attributes: true, attributeFilter: ['style', 'class'] });
             }
-            
-            // Don't initialize design on page load - wait for popluz button click
-            // initDesign() will be called via 'popluzSectionShown' event
-            
-            /**
-             * ==========================================
-             * MIDNIGHT CASINO SLIDER
-             * ==========================================
-             */
-            const mcSlider = document.getElementById('mcSlider');
-            const mcDotsContainer = document.getElementById('mcDots');
-            let mcCurrentSlide = 0;
-            let mcSlideCount = 0;
-            let mcAutoSlideInterval;
-            
-            function initMcSlider() {
-                if (!mcSlider) return;
-                
-                const slides = mcSlider.querySelectorAll('.mc-slide');
-                mcSlideCount = slides.length;
-                
-                // Create dots
-                for (let i = 0; i < mcSlideCount; i++) {
-                    const dot = document.createElement('span');
-                    dot.className = 'dot' + (i === 0 ? ' active' : '');
-                    dot.addEventListener('click', () => goToMcSlide(i));
-                    mcDotsContainer.appendChild(dot);
-                }
-                
-                // Start auto-slide
-                startMcAutoSlide();
-            }
-            
-            function goToMcSlide(index) {
-                mcCurrentSlide = index;
-                mcSlider.style.transform = `translateX(-${index * 100}%)`;
-                
-                // Update dots
-                const dots = mcDotsContainer.querySelectorAll('.dot');
-                dots.forEach((dot, i) => {
-                    dot.classList.toggle('active', i === index);
-                });
-            }
-            
-            function nextMcSlide() {
-                mcCurrentSlide = (mcCurrentSlide + 1) % mcSlideCount;
-                goToMcSlide(mcCurrentSlide);
-            }
-            
-            function startMcAutoSlide() {
-                mcAutoSlideInterval = setInterval(nextMcSlide, 4000);
-            }
-            
-            function stopMcAutoSlide() {
-                clearInterval(mcAutoSlideInterval);
-            }
-            
-            // Pause on hover
-            if (mcSlider) {
-                mcSlider.addEventListener('mouseenter', stopMcAutoSlide);
-                mcSlider.addEventListener('mouseleave', startMcAutoSlide);
-            }
-            
-            initMcSlider();
             
             /**
              * ==========================================
@@ -2504,10 +2278,15 @@
             let ggAutoSlideInterval;
             
             function initGgSlider() {
-                if (!ggSlider) return;
+                if (!ggSlider || !ggDotsContainer) return;
+                
+                // Clear existing dots
+                ggDotsContainer.innerHTML = '';
                 
                 const slides = ggSlider.querySelectorAll('.gg-slide');
                 ggSlideCount = slides.length;
+                
+                if (ggSlideCount === 0) return;
                 
                 // Create dots
                 for (let i = 0; i < ggSlideCount; i++) {
@@ -2538,6 +2317,7 @@
             }
             
             function startGgAutoSlide() {
+                if (ggAutoSlideInterval) clearInterval(ggAutoSlideInterval);
                 ggAutoSlideInterval = setInterval(nextGgSlide, 4000);
             }
             
@@ -2551,7 +2331,10 @@
                 ggSlider.addEventListener('mouseleave', startGgAutoSlide);
             }
             
-            initGgSlider();
+            // Initialize slider if section is already visible
+            if (galaSection && galaSection.style.display !== 'none') {
+                setTimeout(initGgSlider, 100);
+            }
         });
     })();
     </script>
