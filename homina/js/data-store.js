@@ -540,11 +540,14 @@ window.DataStore = (function() {
     function getPlatformCounts(platform) {
         const entries = filterByPlatform(state.entries, platform);
         
-        // Get platform-filtered recharges (only recharges for users in this platform)
-        const platformGameIds = new Set(entries.map(e => e.gameId).filter(Boolean));
+        // ⚠️ CRITICAL: Filter recharges by their OWN platform property (set during fetch)
+        // NOT by whether their gameId is in entries - that would make "Recharged No Ticket" always 0!
         const recharges = (!platform || platform === 'ALL') 
             ? state.recharges 
-            : state.recharges.filter(r => r.gameId && platformGameIds.has(r.gameId));
+            : state.recharges.filter(r => {
+                const rechargePlatform = (r.platform || '').toUpperCase();
+                return rechargePlatform === platform.toUpperCase();
+            });
         
         const playerIds = new Set();
         const rechargerIds = new Set();
@@ -578,7 +581,8 @@ window.DataStore = (function() {
     
     /**
      * Get recharges filtered by platform
-     * Filters recharges to only those whose gameId exists in the platform-filtered entries
+     * ⚠️ CRITICAL: Filters by the recharge's OWN platform property (set during CSV fetch)
+     * This ensures we see ALL rechargers for a platform, including those who haven't created tickets yet
      * @param {string} platform - Platform code (ALL, POPN1, POPLUZ)
      * @returns {Object[]} Filtered recharges
      */
@@ -590,12 +594,12 @@ window.DataStore = (function() {
             return state.recharges;
         }
         
-        // Get game IDs that belong to this platform
-        const platformEntries = filterByPlatform(state.entries, currentPlatform);
-        const platformGameIds = new Set(platformEntries.map(e => e.gameId).filter(Boolean));
-        
-        // Filter recharges to only those with game IDs from this platform
-        return state.recharges.filter(r => r.gameId && platformGameIds.has(r.gameId));
+        // Filter recharges by their OWN platform property (assigned during fetch from POPN1/POPLUZ sheets)
+        // This correctly shows ALL rechargers for this platform, not just those with tickets
+        return state.recharges.filter(r => {
+            const rechargePlatform = (r.platform || '').toUpperCase();
+            return rechargePlatform === currentPlatform.toUpperCase();
+        });
     }
     function getResults() { return state.results; }
     function getCounts(platform) { 

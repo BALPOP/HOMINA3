@@ -2033,7 +2033,7 @@ window.UnifiedPage = (function () {
 
         // Results search
         const debouncedResultsSearch = AdminCore.debounce(renderResultsTable, 300);
-        document.getElementById('searchResults')?.addEventListener('input', (e) => { resultsSearchTerm = e.target.value; debouncedResultsSearch(); });
+        document.getElementById('searchResults')?.addEventListener('input', (e) => { resultsSearchTerm = e.target.value; debouncedResul tsSearch(); });
 
         // Winners filters
         document.getElementById('filterWinnersContest')?.addEventListener('change', (e) => { winnersFilters.contest = e.target.value; applyWinnersFilters(); });
