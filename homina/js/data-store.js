@@ -540,8 +540,9 @@ window.DataStore = (function() {
     function getPlatformCounts(platform) {
         const entries = filterByPlatform(state.entries, platform);
         
-        // ⚠️ CRITICAL: Filter recharges by their OWN platform property (set during fetch)
-        // NOT by whether their gameId is in entries - that would make "Recharged No Ticket" always 0!
+        // ⚠️ CRITICAL: Filter recharges by their OWN platform property (set during CSV fetch)
+        // This ensures we count ALL rechargers for a platform, including those who haven't created tickets yet
+        // If we filter by gameId in entries, "Recharged No Ticket" would always be 0!
         const recharges = (!platform || platform === 'ALL') 
             ? state.recharges 
             : state.recharges.filter(r => {

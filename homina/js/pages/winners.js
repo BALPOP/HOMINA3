@@ -96,6 +96,7 @@ window.WinnersPage = (function() {
                             <thead>
                                 <tr>
                                     <th>Matches</th>
+                                    <th>Platform</th>
                                     <th>Game ID</th>
                                     <th>Numbers</th>
                                     <th>Matched</th>
@@ -104,7 +105,7 @@ window.WinnersPage = (function() {
                                 </tr>
                             </thead>
                             <tbody id="winnersTableBody">
-                                <tr><td colspan="6" class="text-center text-muted">Calculating winners...</td></tr>
+                                <tr><td colspan="7" class="text-center text-muted">Calculating winners...</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -183,21 +184,58 @@ window.WinnersPage = (function() {
         if (!tbody) return;
         
         if (filteredWinners.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="6" class="text-center text-muted">No winners found</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="7" class="text-center text-muted">No winners found</td></tr>';
             return;
         }
         
+        // ⚠️ IMPORTANT: Only show highest match per user per contest
+        // If a user has multiple tickets in the same contest, only show their best result
+        const highestWinnersMap = new Map();
+        filteredWinners.forEach(winner => {
+            const platform = (winner.platform || 'UNKNOWN').toUpperCase();
+            const matchCount = winner.matchCount || winner.matches || 0;
+            const key = `${platform}_${winner.gameId}_${winner.contest}`;
+            const existing = highestWinnersMap.get(key);
+            const existingMatchCount = existing ? (existing.matchCount || existing.matches || 0) : 0;
+            
+            if (!existing || matchCount > existingMatchCount) {
+                highestWinnersMap.set(key, winner);
+            }
+        });
+        
+        // Convert back to array and sort
+        const uniqueWinners = Array.from(highestWinnersMap.values())
+            .sort((a, b) => {
+                const matchA = a.matchCount || a.matches || 0;
+                const matchB = b.matchCount || b.matches || 0;
+                if (matchB !== matchA) return matchB - matchA;
+                return parseInt(b.contest || 0) - parseInt(a.contest || 0);
+            });
+        
         // Show first 100 winners (pagination could be added)
-        const displayWinners = filteredWinners.slice(0, 100);
+        const displayWinners = uniqueWinners.slice(0, 100);
         
         tbody.innerHTML = displayWinners.map(winner => {
+            const matchCount = winner.matchCount || winner.matches || 0;
+            
             // Match count badge
             let matchBadge = '';
-            switch (winner.matchCount) {
+            switch (matchCount) {
                 case 5: matchBadge = '<span class="badge" style="background:#fbbf24;color:#000">🏆 5</span>'; break;
                 case 4: matchBadge = '<span class="badge" style="background:#9ca3af;color:#000">🥈 4</span>'; break;
                 case 3: matchBadge = '<span class="badge" style="background:#d97706;color:#fff">🥉 3</span>'; break;
-                default: matchBadge = `<span class="badge badge-info">${winner.matchCount}</span>`;
+                default: matchBadge = `<span class="badge badge-info">${matchCount}</span>`;
+            }
+            
+            // Platform badge with color coding
+            const platform = (winner.platform || 'UNKNOWN').toUpperCase();
+            let platformBadge = '';
+            if (platform === 'POPN1') {
+                platformBadge = '<span class="badge" style="background:#f97316;color:#fff">POPN1</span>';
+            } else if (platform === 'POPLUZ') {
+                platformBadge = '<span class="badge" style="background:#22c55e;color:#fff">POPLUZ</span>';
+            } else {
+                platformBadge = `<span class="badge badge-secondary">${platform}</span>`;
             }
             
             // All numbers with highlights for matched ones
@@ -218,6 +256,7 @@ window.WinnersPage = (function() {
             return `
                 <tr>
                     <td>${matchBadge}</td>
+                    <td>${platformBadge}</td>
                     <td><strong>${winner.gameId}</strong></td>
                     <td><div class="numbers-display">${numbersHtml}</div></td>
                     <td><div class="numbers-display">${matchedHtml}</div></td>
@@ -228,8 +267,8 @@ window.WinnersPage = (function() {
         }).join('');
         
         // Show count info
-        if (filteredWinners.length > 100) {
-            tbody.innerHTML += `<tr><td colspan="6" class="text-center text-muted">Showing 100 of ${filteredWinners.length} winners</td></tr>`;
+        if (uniqueWinners.length > 100) {
+            tbody.innerHTML += `<tr><td colspan="7" class="text-center text-muted">Showing 100 of ${uniqueWinners.length} winners</td></tr>`;
         }
     }
 
@@ -239,9 +278,25 @@ window.WinnersPage = (function() {
             return;
         }
         
-        const headers = ['Matches', 'Game ID', 'WhatsApp', 'Numbers', 'Matched Numbers', 'Draw Date', 'Contest'];
-        const rows = filteredWinners.map(w => [
-            w.matchCount,
+        // Apply highest-only filter for export as well
+        const highestWinnersMap = new Map();
+        filteredWinners.forEach(winner => {
+            const platform = (winner.platform || 'UNKNOWN').toUpperCase();
+            const matchCount = winner.matchCount || winner.matches || 0;
+            const key = `${platform}_${winner.gameId}_${winner.contest}`;
+            const existing = highestWinnersMap.get(key);
+            const existingMatchCount = existing ? (existing.matchCount || existing.matches || 0) : 0;
+            
+            if (!existing || matchCount > existingMatchCount) {
+                highestWinnersMap.set(key, winner);
+            }
+        });
+        const uniqueWinners = Array.from(highestWinnersMap.values());
+        
+        const headers = ['Matches', 'Platform', 'Game ID', 'WhatsApp', 'Numbers', 'Matched Numbers', 'Draw Date', 'Contest'];
+        const rows = uniqueWinners.map(w => [
+            w.matchCount || w.matches || 0,
+            (w.platform || 'UNKNOWN').toUpperCase(),
             w.gameId,
             w.whatsapp,
             w.numbers.join(', '),
@@ -257,7 +312,7 @@ window.WinnersPage = (function() {
         link.download = `winners_${AdminCore.getBrazilDateString(new Date())}.csv`;
         link.click();
         
-        AdminCore.showToast(`${filteredWinners.length} winners exported`, 'success');
+        AdminCore.showToast(`${uniqueWinners.length} winners exported`, 'success');
     }
 
     // ============================================
@@ -275,7 +330,7 @@ window.WinnersPage = (function() {
         
         const tbody = document.getElementById('winnersTableBody');
         if (tbody) {
-            tbody.innerHTML = '<tr><td colspan="6" class="text-center"><span class="spinner"></span> Calculating winners...</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="7" class="text-center"><span class="spinner"></span> Calculating winners...</td></tr>';
         }
         
         try {

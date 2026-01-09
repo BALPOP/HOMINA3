@@ -1772,7 +1772,7 @@ window.UnifiedPage = (function () {
 
         } catch (error) {
             // Error calculating winners
-            document.getElementById('winnersTableBody').innerHTML = '<tr><td colspan="6" class="text-center text-danger">Error calculating winners</td></tr>';
+            document.getElementById('winnersTableBody').innerHTML = '<tr><td colspan="7" class="text-center text-danger">Error calculating winners</td></tr>';
         }
     }
 
@@ -1849,11 +1849,31 @@ window.UnifiedPage = (function () {
         if (!tbody) return;
 
         if (filteredWinners.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="6" class="text-center text-muted">No winners found</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="7" class="text-center text-muted">No winners found</td></tr>';
             return;
         }
 
-        const displayWinners = filteredWinners.slice(0, 100);
+        // ⚠️ IMPORTANT: Only show highest match per user per contest
+        // If a user has multiple tickets in the same contest, only show their best result
+        const highestWinnersMap = new Map(); // key: "platform_gameId_contest" -> best winner
+        filteredWinners.forEach(winner => {
+            const platform = (winner.platform || 'UNKNOWN').toUpperCase();
+            const key = `${platform}_${winner.gameId}_${winner.contest}`;
+            const existing = highestWinnersMap.get(key);
+            
+            if (!existing || winner.matches > existing.matches) {
+                highestWinnersMap.set(key, winner);
+            }
+        });
+        
+        // Convert back to array and sort by matches desc, then contest desc
+        const uniqueWinners = Array.from(highestWinnersMap.values())
+            .sort((a, b) => {
+                if (b.matches !== a.matches) return b.matches - a.matches;
+                return parseInt(b.contest || 0) - parseInt(a.contest || 0);
+            });
+
+        const displayWinners = uniqueWinners.slice(0, 100);
 
         tbody.innerHTML = displayWinners.map(winner => {
             let matchBadge = '';
@@ -1862,6 +1882,17 @@ window.UnifiedPage = (function () {
                 case 4: matchBadge = '<span class="badge" style="background:#9ca3af;color:#000">🥈 4</span>'; break;
                 case 3: matchBadge = '<span class="badge" style="background:#d97706;color:#fff">🥉 3</span>'; break;
                 default: matchBadge = `<span class="badge badge-info">${winner.matches}</span>`;
+            }
+
+            // Platform badge with color coding
+            const platform = (winner.platform || 'UNKNOWN').toUpperCase();
+            let platformBadge = '';
+            if (platform === 'POPN1') {
+                platformBadge = '<span class="badge" style="background:#f97316;color:#fff">POPN1</span>';
+            } else if (platform === 'POPLUZ') {
+                platformBadge = '<span class="badge" style="background:#22c55e;color:#fff">POPLUZ</span>';
+            } else {
+                platformBadge = `<span class="badge badge-secondary">${platform}</span>`;
             }
 
             const matchedSet = new Set(winner.matchedNumbers || []);
@@ -1879,6 +1910,7 @@ window.UnifiedPage = (function () {
             return `
                 <tr>
                     <td>${matchBadge}</td>
+                    <td>${platformBadge}</td>
                     <td><strong>${winner.gameId}</strong></td>
                     <td><div class="numbers-display">${numbersHtml}</div></td>
                     <td><div class="numbers-display">${matchedHtml}</div></td>
@@ -1888,8 +1920,8 @@ window.UnifiedPage = (function () {
             `;
         }).join('');
 
-        if (filteredWinners.length > 100) {
-            tbody.innerHTML += `<tr><td colspan="6" class="text-center text-muted">Showing 100 of ${filteredWinners.length} winners</td></tr>`;
+        if (uniqueWinners.length > 100) {
+            tbody.innerHTML += `<tr><td colspan="7" class="text-center text-muted">Showing 100 of ${uniqueWinners.length} winners</td></tr>`;
         }
     }
 
@@ -1899,9 +1931,23 @@ window.UnifiedPage = (function () {
             return;
         }
 
-        const headers = ['Matches', 'Game ID', 'Numbers', 'Matched Numbers', 'Draw Date', 'Contest'];
-        const rows = filteredWinners.map(w => [
+        // Apply highest-only filter for export as well
+        const highestWinnersMap = new Map();
+        filteredWinners.forEach(winner => {
+            const platform = (winner.platform || 'UNKNOWN').toUpperCase();
+            const key = `${platform}_${winner.gameId}_${winner.contest}`;
+            const existing = highestWinnersMap.get(key);
+            
+            if (!existing || winner.matches > existing.matches) {
+                highestWinnersMap.set(key, winner);
+            }
+        });
+        const uniqueWinners = Array.from(highestWinnersMap.values());
+
+        const headers = ['Matches', 'Platform', 'Game ID', 'Numbers', 'Matched Numbers', 'Draw Date', 'Contest'];
+        const rows = uniqueWinners.map(w => [
             w.matches,
+            (w.platform || 'UNKNOWN').toUpperCase(),
             w.gameId,
             w.numbers.join(', '),
             (w.matchedNumbers || []).join(', '),
@@ -1916,7 +1962,7 @@ window.UnifiedPage = (function () {
         link.download = `winners_${AdminCore.getBrazilDateString(new Date())}.csv`;
         link.click();
 
-        AdminCore.showToast(`${filteredWinners.length} winners exported`, 'success');
+        AdminCore.showToast(`${uniqueWinners.length} winners exported`, 'success');
     }
 
     // ============================================
@@ -2033,7 +2079,7 @@ window.UnifiedPage = (function () {
 
         // Results search
         const debouncedResultsSearch = AdminCore.debounce(renderResultsTable, 300);
-        document.getElementById('searchResults')?.addEventListener('input', (e) => { resultsSearchTerm = e.target.value; debouncedResul tsSearch(); });
+        document.getElementById('searchResults')?.addEventListener('input', (e) => { resultsSearchTerm = e.target.value; debouncedResultsSearch(); });
 
         // Winners filters
         document.getElementById('filterWinnersContest')?.addEventListener('change', (e) => { winnersFilters.contest = e.target.value; applyWinnersFilters(); });
