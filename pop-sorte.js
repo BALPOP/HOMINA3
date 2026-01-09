@@ -1941,49 +1941,74 @@ function updateDrawDateDisplay() {
 (function () {
     document.addEventListener('DOMContentLoaded', function () {
         const navItems = document.querySelectorAll('.mobile-nav .nav-item');
+        
+        // Get all POPLUZ sections
+        const popluzSections = document.querySelectorAll('.popluz-section');
+        
         const sections = {
             'home': null, // home is default, hide others
             'rules': document.querySelector('.rules-section'),
             'search': document.querySelector('.vld-section'),
             'help': document.getElementById('verticalVideoSection'),
-            'popluz': document.querySelector('.popluz-section')
+            'popluz': popluzSections // Now handles multiple POPLUZ sections
         };
 
         // Function to show section
         function showSection(target) {
-            // Hide all sections
-            Object.values(sections).forEach(section => {
-                if (section) section.style.display = 'none';
+            // 1. Hide Global Sections (Home)
+            const heroSection = document.querySelector('.hero-section');
+            const selectionSection = document.querySelector('.selection-section');
+            if (heroSection) heroSection.style.display = 'none';
+            if (selectionSection) selectionSection.style.display = 'none';
+
+            // 2. Hide specific functional sections
+            const functionalSections = ['rules', 'search', 'help'];
+            functionalSections.forEach(key => {
+                if (sections[key]) sections[key].style.display = 'none';
             });
 
-            // Hide home-specific sections
-            document.querySelector('.hero-section').style.display = 'none';
-            document.querySelector('.selection-section').style.display = 'none';
+            // 3. Hide POPLUZ sections explicitly
+            if (popluzSections) {
+                popluzSections.forEach(s => {
+                    s.classList.remove('active');
+                    s.style.display = 'none';
+                });
+            }
 
-            // Scroll to top for smooth transition
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'instant' }); // Use instant to prevent scroll flash
 
+            // 4. Show the target section
             if (target === 'home') {
-                // Show home sections
-                document.querySelector('.hero-section').style.display = 'block';
-                document.querySelector('.selection-section').style.display = 'block';
+                if (heroSection) heroSection.style.display = 'block';
+                if (selectionSection) selectionSection.style.display = 'block';
+            } else if (target === 'popluz') {
+                // Show POPLUZ sections
+                if (popluzSections) {
+                    popluzSections.forEach(s => {
+                        s.classList.add('active');
+                        s.style.display = 'block';
+                    });
+                }
+                
+                // Initialize slider (triggered by custom event)
+                const initEvent = new CustomEvent('popluzSectionShown');
+                window.dispatchEvent(initEvent);
             } else {
-                // Show target section
+                // Show other sections (rules, search, help)
                 if (sections[target]) {
                     sections[target].style.display = 'block';
                 }
             }
 
-            // Special handling for search
+            // Special handling for search focus
             if (target === 'search') {
                 setTimeout(() => {
                     const searchBox = document.getElementById('searchBox');
                     if (searchBox) {
                         searchBox.focus();
                         searchBox.classList.add('highlighted');
-                        setTimeout(() => {
-                            searchBox.classList.remove('highlighted');
-                        }, 2000);
+                        setTimeout(() => searchBox.classList.remove('highlighted'), 2000);
                     }
                 }, 100);
             }
