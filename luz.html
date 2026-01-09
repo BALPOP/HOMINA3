@@ -9,6 +9,769 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="pop-sorte.css">
+    
+    <!-- Load additional Google Fonts for templates -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&family=Nunito:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+    /* ==========================================
+       TEMPLATE 4: GOLDEN GALA STYLES
+       ========================================== */
+    .popluz-gala {
+      --gg-bg-dark: #ffffff;
+      --gg-bg-surface: #f8fafc;
+      --gg-bg-card: #ffffff;
+      --gg-bg-elevated: #f3f4f6;
+      --gg-champagne-bright: #b45309;
+      --gg-champagne-primary: #d97706;
+      --gg-champagne-rich: #b45309;
+      --gg-champagne-dark: #78350f;
+      --gg-warm-red: #dc2626;
+      --gg-warm-orange: #ea580c;
+      --gg-warm-pink: #db2777;
+      --gg-warm-burgundy: #991b1b;
+      --gg-ivory: #111827;
+      --gg-cream: #1f2937;
+      --gg-white: #ffffff;
+      --gg-text-dim: #4b5563;
+      --gg-text-muted: #6b7280;
+      --gg-border-gold: rgba(180, 83, 9, 0.2);
+      --gg-glow-gold: rgba(217, 119, 6, 0.3);
+      --gg-font-display: 'Space Grotesk', sans-serif;
+      --gg-font-body: 'Inter', sans-serif;
+      
+      font-family: var(--gg-font-body);
+      background: var(--gg-bg-dark);
+      color: var(--gg-ivory);
+      min-height: 100vh;
+      width: 100%;
+      overflow-x: hidden;
+      position: relative;
+    }
+    
+    /* Elegant Grain/Noise Background - Adjusted for white */
+    .popluz-gala::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
+    
+    /* Golden Vignette - Adjusted for white */
+    .popluz-gala::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at 50% 50%, transparent 0%, rgba(217, 119, 6, 0.03) 100%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Confetti Particles - Darker for visibility */
+    .popluz-gala::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: 
+        radial-gradient(4px 4px at 50px 100px, #fbbf24, transparent),
+        radial-gradient(3px 3px at 150px 200px, #ef4444, transparent),
+        radial-gradient(4px 4px at 300px 80px, #d97706, transparent),
+        radial-gradient(3px 3px at 450px 250px, #ec4899, transparent),
+        radial-gradient(4px 4px at 600px 120px, #b45309, transparent),
+        radial-gradient(3px 3px at 750px 300px, #f97316, transparent);
+      animation: gg-confetti-fall 12s linear infinite;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.6;
+    }
+    
+    @keyframes gg-confetti-fall {
+      0% { transform: translateY(-10vh) rotate(0deg); }
+      100% { transform: translateY(110vh) rotate(360deg); }
+    }
+    
+    .gg-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 25px;
+      position: relative;
+      z-index: 1;
+    }
+    
+    /* Golden Gala Header */
+    .gg-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(20px) saturate(180%);
+      border-bottom: 1px solid var(--gg-border-gold);
+      padding: 10px 0;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
+    
+    .gg-header-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .gg-nav {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+    
+    .gg-nav a {
+      color: var(--gg-text-dim);
+      text-decoration: none;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 8px 14px;
+      border-radius: 20px;
+      transition: 0.2s ease;
+      border: 1px solid transparent;
+    }
+    
+    .gg-nav a:hover {
+      color: var(--gg-champagne-bright);
+      background: rgba(212, 168, 83, 0.1);
+      border-color: rgba(230, 200, 141, 0.3);
+    }
+    
+    /* Golden Gala Hero */
+    .gg-hero {
+      position: relative;
+      padding: 30px 0 25px;
+      min-height: auto;
+      display: flex;
+      align-items: flex-start;
+    }
+    
+    .gg-hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 30px;
+      align-items: flex-start;
+    }
+    
+    .gg-hero-content {
+      text-align: left;
+    }
+    
+    .gg-hero-title {
+      font-family: var(--gg-font-display);
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 15px;
+    }
+    
+    .gg-title-line {
+      display: inline;
+    }
+    
+    .gg-title-elegant {
+      color: #fbbf24;
+      font-style: normal;
+      background: linear-gradient(180deg, #fbbf24 0%, #f59e0b 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 0 0 30px var(--gg-glow-gold);
+      font-weight: 900;
+    }
+    
+    .gg-hero-description {
+      font-size: 16px;
+      color: var(--gg-text-dim);
+      line-height: 1.8;
+      margin-bottom: 20px;
+      max-width: 520px;
+      position: relative;
+      padding-left: 15px;
+    }
+    
+    .gg-hero-description::before {
+      content: '"';
+      position: absolute;
+      left: 0;
+      top: -10px;
+      font-family: var(--gg-font-display);
+      font-size: 50px;
+      color: var(--gg-champagne-rich);
+      opacity: 0.5;
+      line-height: 1;
+    }
+    
+    .gg-cta-group {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    
+    .gg-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 16px 32px;
+      border-radius: 50px;
+      font-family: var(--gg-font-body);
+      font-weight: 700;
+      font-size: 14px;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .gg-btn-gala {
+      background: #4c1d95;
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.35), inset 0 -2px 4px rgba(0,0,0,0.4), inset 0 2px 4px rgba(255,255,255,0.06);
+      animation: countdownColors 5s linear infinite;
+    }
+    
+    @keyframes countdownColors {
+      0%   { background: #4c1d95; }
+      20%  { background: #7c3aed; }
+      40%  { background: #c026d3; }
+      60%  { background: #e11d48; }
+      80%  { background: #d97706; }
+      100% { background: #4c1d95; }
+    }
+    
+    .gg-btn-gala::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+      transition: 0.6s;
+    }
+    
+    .gg-btn-gala:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 15px 45px var(--gg-glow-gold), 0 0 40px rgba(212, 168, 83, 0.4);
+    }
+    
+    .gg-btn-gala:hover::before {
+      left: 100%;
+    }
+    
+    .gg-btn-festive {
+      background: transparent;
+      color: var(--gg-champagne-dark);
+      border: 2px solid var(--gg-champagne-primary);
+    }
+    
+    .gg-btn-festive:hover {
+      background: rgba(217, 119, 6, 0.08);
+      border-color: var(--gg-champagne-rich);
+      color: var(--gg-champagne-rich);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(217, 119, 6, 0.15);
+    }
+    
+    /* Preview Card - Gift Box Style */
+    .gg-preview-card {
+      background: linear-gradient(180deg, #facc15 0%, #ca8a04 100%);
+      border: none;
+      border-radius: 30px;
+      overflow: hidden;
+      box-shadow: none;
+      animation: gg-gift-card-float 5s ease-in-out infinite;
+      position: relative;
+    }
+    
+    /* Gift Ribbon - Decorative only, behind slider content */
+    .gg-preview-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 30px;
+      height: 100%;
+      background: linear-gradient(180deg, var(--gg-warm-red), var(--gg-warm-burgundy));
+      opacity: 0.15;
+      z-index: 0;
+      pointer-events: none;
+    }
+    
+    .gg-preview-card::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+      width: 100%;
+      height: 30px;
+      background: linear-gradient(90deg, var(--gg-warm-red), var(--gg-warm-burgundy));
+      opacity: 0.15;
+      z-index: 0;
+      pointer-events: none;
+    }
+    
+    @keyframes gg-gift-card-float {
+      0%, 100% { transform: translateY(0) rotate(-0.5deg); }
+      50% { transform: translateY(-12px) rotate(0.5deg); }
+    }
+    
+    .gg-preview-header {
+      padding: 15px 18px;
+      border-bottom: 2px solid var(--gg-border-gold);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(180deg, rgba(217, 119, 6, 0.05) 0%, transparent 100%);
+      position: relative;
+      z-index: 5;
+    }
+    
+    .gg-preview-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .gg-preview-title h3 {
+      font-family: var(--gg-font-display);
+      font-size: 14px;
+      font-style: italic;
+      letter-spacing: 0.1em;
+      color: var(--gg-champagne-bright);
+    }
+    
+    .gg-gift-icon {
+      font-size: 24px;
+      animation: gg-gift-shake 2s ease-in-out infinite;
+    }
+    
+    @keyframes gg-gift-shake {
+      0%, 100% { transform: rotate(-5deg); }
+      50% { transform: rotate(5deg); }
+    }
+    
+    .gg-preview-img {
+      padding: 28px;
+      background: radial-gradient(circle at 50% 100%, rgba(212, 168, 83, 0.08) 0%, transparent 60%);
+      position: relative;
+      z-index: 2;
+    }
+    
+    .gg-preview-img img {
+      width: 100%;
+      border-radius: 20px;
+      border: 3px solid var(--gg-champagne-rich);
+      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4), 0 0 30px rgba(212, 168, 83, 0.15);
+      transition: 0.4s ease;
+    }
+    
+    .gg-preview-img img:hover {
+      transform: scale(1.03);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5), 0 0 50px var(--gg-glow-gold);
+    }
+    
+    /* Slider Container for Golden Gala */
+    .gg-slider-container {
+      position: relative;
+      width: 100%;
+      padding: 20px;
+      z-index: 5;
+      background: #ffffff;
+      border-radius: 20px;
+    }
+    
+    .gg-slider-viewport {
+      overflow: hidden;
+      border-radius: 20px;
+      position: relative;
+    }
+    
+    .gg-slider-wrapper {
+      display: flex;
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .gg-slide {
+      min-width: 100%;
+      flex: 0 0 100%;
+    }
+    
+    .gg-slide img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 20px;
+      border: none;
+      box-shadow: none;
+    }
+    
+    .gg-dots {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 16px;
+      position: relative;
+      z-index: 10;
+    }
+    
+    .gg-dots .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(212, 168, 83, 0.3);
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+    
+    .gg-dots .dot:hover {
+      background: rgba(212, 168, 83, 0.6);
+    }
+    
+    .gg-dots .dot.active {
+      background: var(--gg-champagne-bright);
+      width: 28px;
+      border-radius: 5px;
+      box-shadow: 0 0 15px var(--gg-glow-gold);
+    }
+    
+    /* Golden Gala Footer */
+    .gg-footer {
+      padding: 30px 0;
+      border-top: 2px solid var(--gg-border-gold);
+      text-align: center;
+      background: linear-gradient(180deg, transparent, rgba(212, 168, 83, 0.03));
+      position: relative;
+      margin-top: 30px;
+    }
+    
+    @media (max-width: 768px) {
+      .gg-footer {
+        padding: 20px 0;
+        margin-top: 20px;
+      }
+      
+      .gg-footer-logo {
+        font-size: 20px;
+      }
+      
+      .gg-footer p {
+        font-size: 13px;
+      }
+    }
+    
+    .gg-footer::before {
+      content: '🎊';
+      position: absolute;
+      top: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 30px;
+    }
+    
+    .gg-footer-logo {
+      font-family: var(--gg-font-display);
+      font-size: 22px;
+      font-weight: 700;
+      font-style: italic;
+      color: var(--gg-champagne-bright);
+      margin-bottom: 10px;
+      text-shadow: 0 0 20px var(--gg-glow-gold);
+    }
+    
+    .gg-footer p {
+      color: var(--gg-text-dim);
+      font-size: 13px;
+    }
+    
+    .gg-footer-warning {
+      margin-top: 10px;
+      font-size: 11px;
+      color: var(--gg-text-muted);
+    }
+    
+    /* Benefits Section Gala */
+    .gg-benefits {
+      margin-top: 20px;
+      padding: 20px;
+      background: rgba(26, 17, 10, 0.8);
+      border-radius: 20px;
+      border: 2px solid var(--gg-border-gold);
+    }
+    
+    .gg-benefits h3 {
+      font-family: var(--gg-font-display);
+      font-size: 15px;
+      font-style: italic;
+      color: #fbbf24;
+      margin-bottom: 12px;
+      text-align: left;
+      text-shadow: 0 0 15px var(--gg-glow-gold);
+    }
+    
+    .gg-benefit-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(251, 191, 36, 0.3);
+    }
+    
+    .gg-benefit-item:last-child {
+      border-bottom: none;
+    }
+    
+    .gg-benefit-icon {
+      font-size: 28px;
+      width: 28px;
+      flex-shrink: 0;
+    }
+    
+    .gg-benefit-item span:last-child {
+      color: #f1f5f9;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+    
+    /* Contact Buttons Gala */
+    .gg-contacts {
+      margin-top: 30px;
+      text-align: center;
+    }
+    
+    .gg-contacts h4 {
+      font-family: var(--gg-font-display);
+      font-size: 16px;
+      font-style: italic;
+      color: var(--gg-champagne-bright);
+      margin-bottom: 15px;
+    }
+    
+    .gg-contact-buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    
+    .gg-contact-btn {
+      padding: 12px 24px;
+      border-radius: 25px;
+      font-weight: 700;
+      font-size: 13px;
+      text-decoration: none;
+      transition: 0.3s ease;
+    }
+    
+    .gg-contact-btn.telegram {
+      background: linear-gradient(135deg, #0088cc, #006699);
+      color: white;
+      box-shadow: 0 0 15px rgba(0, 136, 204, 0.4);
+    }
+    
+    .gg-contact-btn.whatsapp {
+      background: linear-gradient(135deg, #25d366, #128c7e);
+      color: white;
+      box-shadow: 0 0 15px rgba(37, 211, 102, 0.4);
+    }
+    
+    .gg-contact-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    /* ==========================================
+       RESPONSIVE DESIGN FOR BOTH THEMES
+       ========================================== */
+    @media (max-width: 968px) {
+      .gg-hero-grid {
+        grid-template-columns: 1fr;
+        gap: 25px;
+      }
+      
+      /* Reorder: Slider first on mobile/tablet */
+      .gg-preview-card {
+        order: 1;
+      }
+      
+      .gg-hero-content {
+        text-align: center;
+        order: 2;
+      }
+      
+      .gg-hero-description {
+        margin: 0 auto 20px;
+        padding-left: 0;
+        text-align: center;
+      }
+      
+      .gg-hero-description::before {
+        display: none;
+      }
+      
+      .gg-cta-group {
+        justify-content: center;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .gg-container {
+        padding: 0 15px;
+      }
+      
+      .gg-nav {
+        display: none;
+      }
+      
+      .gg-header {
+        padding: 8px 0;
+      }
+      
+      .gg-header-content {
+        justify-content: center;
+      }
+      
+      .gg-hero {
+        padding: 20px 0 15px;
+        min-height: auto;
+      }
+      
+      .gg-hero-title {
+        font-size: 32px;
+        line-height: 1.2;
+      }
+      
+      .gg-hero-description {
+        font-size: 17px;
+        line-height: 1.9;
+      }
+      
+      .gg-btn {
+        padding: 14px 24px;
+        font-size: 15px;
+      }
+      
+      .gg-preview-header {
+        flex-direction: column;
+        gap: 12px;
+        padding: 15px 18px;
+      }
+      
+      .gg-preview-title h3 {
+        font-size: 14px;
+      }
+      
+      .gg-slider-container {
+        padding: 15px;
+      }
+      
+      .gg-preview-card::before,
+      .gg-preview-card::after {
+        display: none;
+      }
+      
+      .gg-badge-balloons {
+        display: none;
+      }
+      
+      .gg-benefits {
+        margin-top: 15px;
+        padding: 18px;
+      }
+      
+      .gg-benefits h3 {
+        font-size: 18px;
+        margin-bottom: 15px;
+      }
+      
+      .gg-benefits p {
+        font-size: 15px;
+        line-height: 1.7;
+      }
+      
+      .gg-badge-text {
+        font-size: 12px;
+      }
+      
+      .gg-badge-ribbon {
+        font-size: 10px;
+        padding: 5px 12px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .gg-hero-title {
+        font-size: 28px;
+        line-height: 1.2;
+      }
+      
+      .gg-cta-group {
+        flex-direction: column;
+        width: 100%;
+        gap: 12px;
+      }
+      
+      .gg-btn {
+        width: 100%;
+        padding: 14px 22px;
+        font-size: 15px;
+      }
+      
+      .gg-gala-badge {
+        padding: 10px 16px;
+        gap: 8px;
+      }
+      
+      .gg-badge-text {
+        font-size: 11px;
+      }
+      
+      .gg-hero-description {
+        font-size: 16px;
+        line-height: 1.9;
+      }
+      
+      .gg-benefits {
+        padding: 18px;
+      }
+      
+      .gg-benefits h3 {
+        font-size: 17px;
+        margin-bottom: 12px;
+      }
+      
+      .gg-benefits p {
+        font-size: 14px;
+        line-height: 1.7;
+      }
+      
+      .gg-logo-text h1 {
+        font-size: 22px;
+      }
+      
+      .gg-logo-text p {
+        font-size: 9px;
+      }
+    }
+    </style>
     <meta property="og:title" content="POP-SORTE - Loteria Oficial" />
     <meta property="og:description" content="Recarregue, ganhe mais bilhetes e seja um sortudo! Quina Especial da POP. Prêmio diário de R$1000." />
     <meta property="og:image" content="https://i.ibb.co/PZfHLG3k/qui2.png" />
@@ -32,7 +795,7 @@
                 <div class="marquee-balls" id="marqueeBalls">
                     <span class="marquee-loading">CARREGANDO RESULTADOS...</span>
                 </div>
-                📢 Confira o último resultado SÓ NA página do Site Oficial da Caixa: <a href="https://loterias.caixa.gov.br/Paginas/quina.aspx" target="_blank" class="marquee-link">https://loterias.caixa.gov.br/Paginas/quina.aspx</a> ou REDE TV, AO VIVO no YouTube. NINGUÉM SAI DE MÃOS VAZIAS!! 🎁🎁🎁
+                📢 Confira o último resultado SÓ NA página do Site Oficial da Caixa: <a href="https://loterias.caixa.gov.br" target="_blank" class="marquee-link">https://loterias.caixa.gov.br</a> ou REDE TV, AO VIVO no YouTube. NINGUÉM SAI DE MÃOS VAZIAS!! 🎁🎁🎁
             </div>
         </div>
     </section>
@@ -165,7 +928,7 @@
                 <strong>📊 RESULTADO OFICIAL:</strong>
                 <p class="rule-paragraph">Os resultados seguem a Quina oficial do Brasil.</p>
                 <p class="rule-paragraph rule-link-wrap">
-                    Consulta: <a href="https://loterias.caixa.gov.br/Paginas/quina.aspx" target="_blank" class="rule-link">https://loterias.caixa.gov.br/Paginas/quina.aspx</a>
+                    Consulta: <a href="https://loterias.caixa.gov.br" target="_blank" class="rule-link">https://loterias.caixa.gov.br</a>
                 </p>
                 
                 <div class="spacer-15"></div>
@@ -288,73 +1051,91 @@
         </div>
     </section>
 
-    <section class="popluz-section">
-        <div class="popluz-container">            
-            <a href="http://popluz.com/" target="_blank" class="popluz-banner-link">
-                <div class="popluz-slider-container">
-                    <div class="popluz-slider-wrapper" id="popluzSlider">
-                        <div class="popluz-slide"><img src="https://i.ibb.co/xt8qmPHp/luz-1.webp" alt="Banner 1"></div>
-                        <div class="popluz-slide"><img src="https://i.ibb.co/mCcFs985/luz-2.webp" alt="Banner 2"></div>
-                        <div class="popluz-slide"><img src="https://i.ibb.co/tTNbHgdQ/luz-3.webp" alt="Banner 3"></div>
-                        <div class="popluz-slide"><img src="https://i.ibb.co/pvP15GVX/luz-4.webp" alt="Banner 4"></div>
-                        <div class="popluz-slide"><img src="https://i.ibb.co/fdpbzgZx/luz-5.webp" alt="Banner 5"></div>
-                        <div class="popluz-slide"><img src="https://i.ibb.co/ccnRfGch/luz-6.webp" alt="Banner 6"></div>
-                        <div class="popluz-slide"><img src="https://i.ibb.co/FLPLqLjd/luz-7.webp" alt="Banner 7"></div>
-                        <div class="popluz-slide"><img src="https://i.ibb.co/xK78HCF0/luz-8.webp" alt="Banner 8"></div>
+    <!-- ==========================================
+         POPLUZ SECTION - GOLDEN GALA DESIGN
+         ========================================== -->
+    <section class="popluz-section popluz-design-container active" id="popluzGala">
+        <div class="popluz-gala">
+            <!-- Header -->
+            <header class="gg-header">
+                <div class="gg-container">
+                    <div class="gg-header-content">
+                        <nav class="gg-nav">
+                            <a href="https://t.me/+DXK0BQBTz9YzM2Ux">Canal Oficial</a>
+                            <a href="https://t.me/+r8QbQP7IGmxjZWUx">Grupo VIP</a>
+                            <a href="https://wa.popsorte.vip/grupo">WhatsApp</a>
+                        </nav>
                     </div>
-                    
-                    <div class="popluz-dots" id="popluzDots"></div>
                 </div>
-            </a>
+            </header>
             
-            <div class="popluz-content">
-                <h1 class="popluz-title">PLATAFORMA POPLUZ</h1>
-                <div class="popluz-launched">
-                    <div class="launched-badge">🚀 JÁ DISPONÍVEL!</div>
-                </div>
-                
-                <div class="popluz-contacts">
-                    <h3>FALE COM UM MENTOR</h3>
-                    <div class="contact-buttons">
-                        <a href="http://pop-agent.com/tg" class="contact-btn telegram" target="_blank">
-                            Telegram
-                        </a>
-                        <a href="http://pop-agent.com/wa" class="contact-btn whatsapp" target="_blank">
-                            WhatsApp
-                        </a>
+            <!-- Hero Section -->
+            <section class="gg-hero">
+                <div class="gg-container">
+                    <div class="gg-hero-grid">
+                        <div class="gg-hero-content">
+                            
+                            <h2 class="gg-hero-title">
+                                <span class="gg-title-line gg-title-elegant">GRUPO VIP EXCLUSIVO</span>
+                            </h2>
+                            
+                            <p class="gg-hero-description">
+                                Entrou, já começa a concorrer!<br>
+                                🎡 Roletas diárias + eventos VIP<br>
+                                📱 Prêmios como iPhone 17 Pro Max<br>
+                                💰 Depósito + jogador ativo = chance TODOS OS DIAS<br>
+                                👉 VIP não assiste, VIP ganha
+                            </p>
+                            
+                            <div class="gg-benefits">
+                                <h3>💰 Como participar?</h3>
+                                <p style="color: #ffffff; font-size: 14px; line-height: 1.6; margin-top: 10px;">
+                                    Basta fazer um depósito e se manter ativo na plataforma para concorrer todos os dias a prêmios extras, bônus exclusivos e ainda garantir aquele saque que faz a diferença 🚀🍀
+                                </p>
+                            </div>
+                            
+                            <div class="gg-cta-group" style="margin-top: 20px;">
+                                <a href="https://popluz6n.com?ch=40617" class="gg-btn gg-btn-gala" target="_blank">
+                                    🎉 JOGAR AGORA
+                                </a>
+                                <a href="https://t.me/+DXK0BQBTz9YzM2Ux" class="gg-btn gg-btn-festive" target="_blank">
+                                    🎊 CANAL OFICIAL
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="gg-preview-card">
+                            <div class="gg-preview-header">
+                                <div class="gg-preview-title">
+                                    <span class="gg-gift-icon">🎁</span>
+                                    <h3>GRUPO DE EVENTOS VIP </h3>
+                                    <span class="gg-gift-icon">🎁</span>
+                                </div>
+                            </div>
+                            <div class="gg-slider-container">
+                                <div class="gg-slider-viewport">
+                                    <div class="gg-slider-wrapper" id="ggSlider">
+                                        <div class="gg-slide"><a href="https://t.me/PopRedeBot" target="_blank" rel="noopener"><img src="media/1.jpg" alt="Roleta Comissão"></a></div>
+                                        <div class="gg-slide"><a href="https://t.me/PopRedeBot" target="_blank" rel="noopener"><img src="media/2.jpg" alt="Roleta Diária"></a></div>
+                                        <div class="gg-slide"><a href="https://t.me/PopRedeBot" target="_blank" rel="noopener"><img src="media/3.jpg" alt="Roleta Slot"></a></div>
+                                        <div class="gg-slide"><a href="https://t.me/PopRedeBot" target="_blank" rel="noopener"><img src="media/4.jpg" alt="Premium VIP"></a></div>
+                                        <div class="gg-slide"><a href="https://t.me/PopRedeBot" target="_blank" rel="noopener"><img src="media/5.jpg" alt="Aniversário"></a></div>
+                                        <div class="gg-slide"><a href="https://t.me/PopRedeBot" target="_blank" rel="noopener"><img src="media/6.jpg" alt="Roda da Fortuna"></a></div>
+                                    </div>
+                                </div>
+                                <div class="gg-dots" id="ggDots"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <p class="popluz-description">
-                    <br>Com apenas <strong>5 indicações</strong>, você garante <strong>R$223</strong> com 100% de garantia!
-                </p>
-                
-                <div class="popluz-benefits">
-                    <div class="benefit-item">
-                        <span class="benefit-icon">💰</span>
-                        <span>Bônus de indicação a partir de R$30 - Pode ser sacado imediatamente</span>
-                    </div>
-                    <div class="benefit-item">
-                        <span class="benefit-icon">📈</span>
-                        <span>Salário semanal de até R$150.000 (válido a partir de 5 indicações)</span>
-                    </div>
-                    <div class="benefit-item">
-                        <span class="benefit-icon">🎯</span>
-                        <span>Bônus de convite de até R$10.000 - Basta 1 depósito para ativar</span>
-                    </div>
-                    <div class="benefit-item">
-                        <span class="benefit-icon">💼</span>
-                        <span>Business Nível VIP até R$20.000 - Quando membros sobem de nível</span>
-                    </div>
-                    <div class="benefit-item">
-                        <span class="benefit-icon">😍</span>
-                        <span>Taxa de agência R$5 por pessoa - Contate mentor para sacar</span>
-                    </div>
+            </section>
+            
+            <!-- Footer -->
+            <footer class="gg-footer">
+                <div class="gg-container">
+                    
                 </div>
-                
-                <p class="popluz-extra">
-                    ✨ E ainda há muitos outros bônus adicionais feitos para beneficiar você!
-                </p>
-            </div>
+            </footer>
         </div>
     </section>
 
@@ -421,11 +1202,11 @@
                 <div class="winner-image-container">
                     <img src="https://linkly.link/2Wshk" alt="Winner Announcement" class="winner-image">
                 </div>
-                <h3 class="winner-popup-title">PARABÉNS AOS VENCEDORES!</h3>
+                <h3 class="winner-popup-title"> NINGUÉM SAI DE MÃOS VAZIAS!</h3>
                 <div class="winner-popup-text">
-                    Vencedor da semana passada! Onde você está?<br><br>
+                    <strong>LEMBRE-SE:</strong> quanto mais bilhetes você tiver, maiores serão suas chances na roleta todos os domingos!<br><br>
                     <strong>POPLUZ</strong> ou <strong>POPN1</strong>? Ou melhor… as duas 😉<br><br>
-                    <a href="https://wa.PopSorte.vip/vencedor" target="_blank" class="winner-claim-link">
+                    <a href="https://wa.popsorte.vip" target="_blank" class="winner-claim-link">
                         Fale com um Especialista agora mesmo!
                     </a>
                 </div>
@@ -451,7 +1232,7 @@
             <span class="nav-label">Regras</span>
         </a>
         <a href="#" class="nav-item popluz-nav popluz-pulse" data-target="popluz">
-            <span class="nav-icon"><img src="https://i.ibb.co/RRgS5GR/wew.gif" alt="POPLUZ"></span>
+            <span class="nav-icon"><img src="media/REDEPOP LOGO PNG.png" alt="POPLUZ"></span>
             <span class="nav-label"></span>
         </a>
         <a href="#" class="nav-item" data-target="search">
@@ -466,6 +1247,120 @@
         </div>
     </div>
     <script src="pop-sorte.js" defer></script>
+    
+    <!-- ==========================================
+         POPLUZ GOLDEN GALA SLIDER JAVASCRIPT
+         ========================================== -->
+    <script>
+    (function() {
+        'use strict';
+        
+        /**
+         * POPLUZ Golden Gala Slider Controller
+         */
+        document.addEventListener('DOMContentLoaded', function() {
+            const galaSection = document.getElementById('popluzGala');
+            
+            // Initialize Golden Gala section when POPLUZ button is clicked
+            window.addEventListener('popluzSectionShown', function() {
+                if (galaSection) {
+                    galaSection.classList.add('active');
+                    galaSection.style.display = 'block';
+                    // Initialize slider after section is shown
+                    setTimeout(initGgSlider, 200);
+                }
+            });
+            
+            // Also initialize if section becomes visible via other means
+            const observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+                        const isVisible = mutation.target.style.display === 'block' || 
+                                         mutation.target.style.display === '';
+                        if (isVisible && mutation.target.id === 'popluzGala') {
+                            mutation.target.classList.add('active');
+                            setTimeout(initGgSlider, 200);
+                        }
+                    }
+                });
+            });
+            
+            if (galaSection) {
+                observer.observe(galaSection, { attributes: true, attributeFilter: ['style', 'class'] });
+            }
+            
+            /**
+             * ==========================================
+             * GOLDEN GALA SLIDER
+             * ==========================================
+             */
+            const ggSlider = document.getElementById('ggSlider');
+            const ggDotsContainer = document.getElementById('ggDots');
+            let ggCurrentSlide = 0;
+            let ggSlideCount = 0;
+            let ggAutoSlideInterval;
+            
+            function initGgSlider() {
+                if (!ggSlider || !ggDotsContainer) return;
+                
+                // Clear existing dots
+                ggDotsContainer.innerHTML = '';
+                
+                const slides = ggSlider.querySelectorAll('.gg-slide');
+                ggSlideCount = slides.length;
+                
+                if (ggSlideCount === 0) return;
+                
+                // Create dots
+                for (let i = 0; i < ggSlideCount; i++) {
+                    const dot = document.createElement('span');
+                    dot.className = 'dot' + (i === 0 ? ' active' : '');
+                    dot.addEventListener('click', () => goToGgSlide(i));
+                    ggDotsContainer.appendChild(dot);
+                }
+                
+                // Start auto-slide
+                startGgAutoSlide();
+            }
+            
+            function goToGgSlide(index) {
+                ggCurrentSlide = index;
+                ggSlider.style.transform = `translateX(-${index * 100}%)`;
+                
+                // Update dots
+                const dots = ggDotsContainer.querySelectorAll('.dot');
+                dots.forEach((dot, i) => {
+                    dot.classList.toggle('active', i === index);
+                });
+            }
+            
+            function nextGgSlide() {
+                ggCurrentSlide = (ggCurrentSlide + 1) % ggSlideCount;
+                goToGgSlide(ggCurrentSlide);
+            }
+            
+            function startGgAutoSlide() {
+                if (ggAutoSlideInterval) clearInterval(ggAutoSlideInterval);
+                ggAutoSlideInterval = setInterval(nextGgSlide, 4000);
+            }
+            
+            function stopGgAutoSlide() {
+                clearInterval(ggAutoSlideInterval);
+            }
+            
+            // Pause on hover
+            if (ggSlider) {
+                ggSlider.addEventListener('mouseenter', stopGgAutoSlide);
+                ggSlider.addEventListener('mouseleave', startGgAutoSlide);
+            }
+            
+            // Initialize slider if section is already visible
+            if (galaSection && galaSection.style.display !== 'none') {
+                setTimeout(initGgSlider, 100);
+            }
+        });
+    })();
+    </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const floatingClear = document.getElementById('floatingClearBtn');
