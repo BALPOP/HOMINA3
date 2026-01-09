@@ -2660,10 +2660,12 @@ body { font-family: 'Inter', 'Segoe UI', Tahoma, sans-serif; }
 }
 
 .mobile-nav .popluz-nav .nav-icon img {
-  width: 100%;
-  height: 100%;
+  width: 150%;
+  height: 150%;
   object-fit: contain;
   display: block;
+  margin-left: -7px;
+  margin-top: -7px;
 }
 
 .mobile-nav .popluz-nav .nav-label {
