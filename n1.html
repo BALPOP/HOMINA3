@@ -573,10 +573,18 @@
     
     .gg-contacts h4 {
       font-family: var(--gg-font-display);
-      font-size: 16px;
-      font-style: italic;
-      color: var(--gg-champagne-bright);
+      font-size: clamp(28px, 4vw, 42px);
+      font-style: normal;
+      font-weight: 900;
+      color: #fbbf24;
+      background: linear-gradient(180deg, #fbbf24 0%, #f59e0b 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 0 0 30px var(--gg-glow-gold);
       margin-bottom: 15px;
+      text-align: center;
+      line-height: 1.1;
     }
     
     .gg-contact-buttons {
@@ -596,15 +604,15 @@
     }
     
     .gg-contact-btn.telegram {
-      background: linear-gradient(135deg, #0088cc, #006699);
+      background: #0088cc;
       color: white;
-      box-shadow: 0 0 15px rgba(0, 136, 204, 0.4);
+      box-shadow: 0 2px 8px rgba(0, 136, 204, 0.3);
     }
     
     .gg-contact-btn.whatsapp {
-      background: linear-gradient(135deg, #25d366, #128c7e);
+      background: linear-gradient(90deg, #25d366 0%, #20ba5a 100%);
       color: white;
-      box-shadow: 0 0 15px rgba(37, 211, 102, 0.4);
+      box-shadow: 0 2px 8px rgba(37, 211, 102, 0.3);
     }
     
     .gg-contact-btn:hover {
@@ -642,6 +650,26 @@
       
       .gg-cta-group {
         justify-content: center;
+      }
+    }
+    
+    /* Desktop-specific styles */
+    @media (min-width: 969px) {
+      .gg-hero-content {
+        text-align: center;
+      }
+      
+      .gg-hero-title {
+        text-align: center;
+      }
+      
+      .gg-cta-group {
+        justify-content: center;
+      }
+      
+      .gg-contact-btn {
+        padding: 16px 32px;
+        font-size: 15px;
       }
     }
     
@@ -1124,6 +1152,18 @@
                                 <a href="https://t.me/+DXK0BQBTz9YzM2Ux" class="gg-btn gg-btn-festive" target="_blank">
                                     🎊 CANAL OFICIAL
                                 </a>
+                            </div>
+
+                            <div class="gg-contacts" style="margin-top: 25px;">
+                                <h4>FALE COM UM MENTOR</h4>
+                                <div class="gg-contact-buttons">
+                                    <a href="http://pop-agent.com/tg" class="gg-contact-btn telegram" target="_blank" rel="noopener">
+                                        TELEGRAM
+                                    </a>
+                                    <a href="http://pop-agent.com/wa" class="gg-contact-btn whatsapp" target="_blank" rel="noopener">
+                                        WHATSAPP
+                                    </a>
+                                </div>
                             </div>
 
                             <div class="gg-benefits">
