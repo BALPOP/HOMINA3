@@ -846,6 +846,7 @@
       padding: 0 25px;
       position: relative;
       z-index: 1;
+      border-radius: 8px;
     }
     
     /* Golden Gala Header */
@@ -858,6 +859,7 @@
       border-bottom: 1px solid var(--gg-border-gold);
       padding: 10px 0;
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      border-radius: 8px;
     }
     
     .gg-header-content {
@@ -936,13 +938,14 @@
       padding: 8px 14px;
       border-radius: 20px;
       transition: 0.2s ease;
-      border: 1px solid transparent;
+      border: 2px solid rgba(212, 168, 83, 0.3);
+      background: rgba(212, 168, 83, 0.05);
     }
     
     .gg-nav a:hover {
       color: var(--gg-champagne-bright);
-      background: rgba(212, 168, 83, 0.1);
-      border-color: rgba(230, 200, 141, 0.3);
+      background: rgba(212, 168, 83, 0.15);
+      border-color: rgba(230, 200, 141, 0.5);
     }
     
     /* Golden Gala Hero */
@@ -1052,7 +1055,7 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      text-shadow: 0 0 30px var(--gg-glow-gold);
+      text-shadow: none;
       font-weight: 900;
     }
     
@@ -1112,8 +1115,15 @@
     .gg-btn-gala {
       background: #4c1d95;
       color: #ffffff;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.35), inset 0 -2px 4px rgba(0,0,0,0.4), inset 0 2px 4px rgba(255,255,255,0.06);
+      padding: 18px 36px;
+      font-size: 15px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.4), inset 0 -2px 4px rgba(0,0,0,0.4), inset 0 2px 4px rgba(255,255,255,0.06);
       animation: countdownColors 5s linear infinite;
+    }
+    
+    .gg-btn-gala:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5), inset 0 -2px 4px rgba(0,0,0,0.4), inset 0 2px 4px rgba(255,255,255,0.06);
     }
     
     @keyframes countdownColors {
@@ -1148,56 +1158,65 @@
     .gg-btn-festive {
       background: transparent;
       color: var(--gg-champagne-dark);
-      border: 2px solid var(--gg-champagne-primary);
+      border: 3px solid var(--gg-champagne-primary);
+      padding: 18px 36px;
+      font-size: 15px;
+      box-shadow: 0 4px 12px rgba(217, 119, 6, 0.25);
     }
     
     .gg-btn-festive:hover {
-      background: rgba(217, 119, 6, 0.08);
+      background: rgba(217, 119, 6, 0.15);
       border-color: var(--gg-champagne-rich);
       color: var(--gg-champagne-rich);
       transform: translateY(-3px);
-      box-shadow: 0 10px 30px rgba(217, 119, 6, 0.15);
+      box-shadow: 0 8px 24px rgba(217, 119, 6, 0.4);
     }
     
     /* Preview Card - Gift Box Style */
     .gg-preview-card {
       background: linear-gradient(180deg, #facc15 0%, #ca8a04 100%);
       border: none;
-      border-radius: 30px;
-      overflow: hidden;
+      border-radius: 8px;
+      overflow: visible;
       box-shadow: none;
       animation: gg-gift-card-float 5s ease-in-out infinite;
       position: relative;
       order: -1;
+      isolation: isolate;
+      z-index: 0;
     }
     
-    /* Gift Ribbon - Decorative only, behind slider content */
+    /* Animated border like info-banner */
     .gg-preview-card::before {
-      content: '';
+      content: "";
       position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 30px;
-      height: 100%;
-      background: linear-gradient(180deg, var(--gg-warm-red), var(--gg-warm-burgundy));
-      opacity: 0.15;
-      z-index: 0;
-      pointer-events: none;
+      inset: -2px;
+      border-radius: 10px;
+      padding: 3px;
+      background: linear-gradient(
+        90deg,
+        #facc15 0%,
+        #d97706 25%,
+        #4c1d95 50%,
+        #312e81 75%,
+        #facc15 100%
+      );
+      background-size: 300% 300%;
+      animation: gg-bannerBorderFlow 6s linear infinite;
+      z-index: -1;
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask-composite: exclude;
+    }
+    
+    @keyframes gg-bannerBorderFlow {
+      0%   { background-position: 0% 50%; }
+      100% { background-position: 300% 50%; }
     }
     
     .gg-preview-card::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 0;
-      transform: translateY(-50%);
-      width: 100%;
-      height: 30px;
-      background: linear-gradient(90deg, var(--gg-warm-red), var(--gg-warm-burgundy));
-      opacity: 0.15;
-      z-index: 0;
-      pointer-events: none;
+      display: none;
     }
     
     @keyframes gg-gift-card-float {
@@ -1214,12 +1233,14 @@
       background: linear-gradient(180deg, rgba(217, 119, 6, 0.05) 0%, transparent 100%);
       position: relative;
       z-index: 5;
+      border-radius: 8px 8px 0 0;
     }
     
     .gg-preview-title {
       display: flex;
       align-items: center;
       gap: 12px;
+      border-radius: 8px;
     }
     
     .gg-preview-title h3 {
@@ -1266,9 +1287,9 @@
       position: relative;
       width: 100%;
       padding: 20px;
-      z-index: 5;
+      z-index: 2;
       background: #ffffff;
-      border-radius: 20px;
+      border-radius: 8px;
     }
     
     .gg-slider-viewport {
@@ -1439,7 +1460,7 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      text-shadow: 0 0 30px var(--gg-glow-gold);
+      text-shadow: none;
       margin-bottom: 15px;
       text-align: center;
       line-height: 1.1;
@@ -1453,28 +1474,40 @@
     }
     
     .gg-contact-btn {
-      padding: 12px 24px;
+      padding: 16px 32px;
       border-radius: 25px;
       font-weight: 700;
-      font-size: 13px;
+      font-size: 15px;
       text-decoration: none;
       transition: 0.3s ease;
+      cursor: pointer;
+      min-width: 140px;
     }
     
     .gg-contact-btn.telegram {
       background: #0088cc;
       color: white;
-      box-shadow: 0 2px 8px rgba(0, 136, 204, 0.3);
+      box-shadow: 0 4px 12px rgba(0, 136, 204, 0.4);
     }
     
     .gg-contact-btn.whatsapp {
       background: linear-gradient(90deg, #25d366 0%, #20ba5a 100%);
       color: white;
-      box-shadow: 0 2px 8px rgba(37, 211, 102, 0.3);
+      box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
     }
     
     .gg-contact-btn:hover {
-      transform: translateY(-2px);
+      transform: translateY(-3px);
+    }
+    
+    .gg-contact-btn.telegram:hover {
+      box-shadow: 0 6px 16px rgba(0, 136, 204, 0.6);
+      background: #0099dd;
+    }
+    
+    .gg-contact-btn.whatsapp:hover {
+      box-shadow: 0 6px 16px rgba(37, 211, 102, 0.6);
+      background: linear-gradient(90deg, #2ee574 0%, #25d366 100%);
     }
 
     /* ==========================================
@@ -1604,11 +1637,6 @@
       .mc-slider-container,
       .gg-slider-container {
         padding: 15px;
-      }
-      
-      .gg-preview-card::before,
-      .gg-preview-card::after {
-        display: none;
       }
       
       .mc-badge-chips {
@@ -2127,7 +2155,7 @@
                             <div class="gg-benefits">
                                 <h3>💰 Como participar?</h3>
                                 <p style="color: #ffffff; font-size: 14px; line-height: 1.6; margin-top: 10px;">
-                                    Basta fazer um depósito e se manter ativo na plataforma para concorrer todos os dias a prêmios extras, bônus exclusivos e ainda garantir aquele saque que faz a diferença 🚀🍀
+                                    Basta fazer um depósito e se manter ativo na plataforma para concorrer todos os dias a prêmios extras, bônus exclusivos e ainda garantir aquele saque que faz a diferença
                                 </p>
                             </div>
                         </div>
