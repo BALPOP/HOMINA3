@@ -17,6 +17,17 @@
     /* ==========================================
        TEMPLATE 4: GOLDEN GALA STYLES
        ========================================== */
+    .popluz-section.popluz-design-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      min-height: 100%;
+      z-index: 2000;
+      margin: 0;
+      padding: 0;
+    }
+
     .popluz-gala {
       --gg-bg-dark: #ffffff;
       --gg-bg-surface: #f8fafc;
@@ -299,6 +310,7 @@
       box-shadow: none;
       animation: gg-gift-card-float 5s ease-in-out infinite;
       position: relative;
+      order: -1;
     }
     
     /* Gift Ribbon - Decorative only, behind slider content */
@@ -339,7 +351,7 @@
       padding: 15px 18px;
       border-bottom: 2px solid var(--gg-border-gold);
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       align-items: center;
       background: linear-gradient(180deg, rgba(217, 119, 6, 0.05) 0%, transparent 100%);
       position: relative;
@@ -354,10 +366,11 @@
     
     .gg-preview-title h3 {
       font-family: var(--gg-font-display);
-      font-size: 14px;
-      font-style: italic;
+      font-size: 17px;
+      font-style: normal;
       letter-spacing: 0.1em;
       color: var(--gg-champagne-bright);
+      text-align: center;
     }
     
     .gg-gift-icon {
@@ -521,7 +534,7 @@
     .gg-benefits h3 {
       font-family: var(--gg-font-display);
       font-size: 15px;
-      font-style: italic;
+      font-style: normal;
       color: #fbbf24;
       margin-bottom: 12px;
       text-align: left;
@@ -635,10 +648,6 @@
     @media (max-width: 768px) {
       .gg-container {
         padding: 0 15px;
-      }
-      
-      .gg-nav {
-        display: none;
       }
       
       .gg-header {
@@ -1079,20 +1088,34 @@
                                 <span class="gg-title-line gg-title-elegant">GRUPO VIP EXCLUSIVO</span>
                             </h2>
                             
-                            <p class="gg-hero-description">
-                                Entrou, já começa a concorrer!<br>
-                                🎡 Roletas diárias + eventos VIP<br>
-                                📱 Prêmios como iPhone 17 Pro Max<br>
-                                💰 Depósito + jogador ativo = chance TODOS OS DIAS<br>
-                                👉 VIP não assiste, VIP ganha
+                        <div class="gg-hero-description">
+                            <p style="text-align: center; margin-bottom: 15px; color: var(--gg-text-dim);">
+                                Com apenas <strong>5 indicações</strong>, você garante<br>
+                                <strong>R$223</strong> com 100% de garantia!
                             </p>
-                            
-                            <div class="gg-benefits">
-                                <h3>💰 Como participar?</h3>
-                                <p style="color: #ffffff; font-size: 14px; line-height: 1.6; margin-top: 10px;">
-                                    Basta fazer um depósito e se manter ativo na plataforma para concorrer todos os dias a prêmios extras, bônus exclusivos e ainda garantir aquele saque que faz a diferença 🚀🍀
-                                </p>
+                            <div style="display: flex; flex-direction: column; gap: 15px; text-align: left;">
+                                <div style="display: flex; gap: 12px; align-items: flex-start;">
+                                    <span style="min-width: 24px; font-size: 18px; line-height: 1.3; text-align: left;">💰</span>
+                                    <span style="flex: 1; line-height: 1.4;">Bônus de indicação a partir de R$30 - Pode ser sacado imediatamente</span>
+                                </div>
+                                <div style="display: flex; gap: 12px; align-items: flex-start;">
+                                    <span style="min-width: 24px; font-size: 18px; line-height: 1.3; text-align: left;">📈</span>
+                                    <span style="flex: 1; line-height: 1.4;">Salário semanal de até R$150.000 (válido a partir de 5 indicações)</span>
+                                </div>
+                                <div style="display: flex; gap: 12px; align-items: flex-start;">
+                                    <span style="min-width: 24px; font-size: 18px; line-height: 1.3; text-align: left;">🎯</span>
+                                    <span style="flex: 1; line-height: 1.4;">Bônus de convite de até R$10.000 - Basta 1 depósito para ativar</span>
+                                </div>
+                                <div style="display: flex; gap: 12px; align-items: flex-start;">
+                                    <span style="min-width: 24px; font-size: 18px; line-height: 1.3; text-align: left;">💼</span>
+                                    <span style="flex: 1; line-height: 1.4;">Business Nível VIP até R$20.000 - Quando membros sobem de nível</span>
+                                </div>
+                                <div style="display: flex; gap: 12px; align-items: flex-start;">
+                                    <span style="min-width: 24px; font-size: 18px; line-height: 1.3; text-align: left;">😍</span>
+                                    <span style="flex: 1; line-height: 1.4;">Taxa de agência R$5 por pessoa - Contate mentor para sacar</span>
+                                </div>
                             </div>
+                        </div>
                             
                             <div class="gg-cta-group" style="margin-top: 20px;">
                                 <a href="https://popluz6n.com?ch=40617" class="gg-btn gg-btn-gala" target="_blank">
@@ -1101,6 +1124,13 @@
                                 <a href="https://t.me/+DXK0BQBTz9YzM2Ux" class="gg-btn gg-btn-festive" target="_blank">
                                     🎊 CANAL OFICIAL
                                 </a>
+                            </div>
+
+                            <div class="gg-benefits">
+                                <h3>💰 Como participar?</h3>
+                                <p style="color: #ffffff; font-size: 14px; line-height: 1.6; margin-top: 10px;">
+                                    Basta fazer um depósito e se manter ativo na plataforma para concorrer todos os dias a prêmios extras, bônus exclusivos e ainda garantir aquele saque que faz a diferença 🚀🍀
+                                </p>
                             </div>
                         </div>
                         
@@ -1130,12 +1160,7 @@
                 </div>
             </section>
             
-            <!-- Footer -->
-            <footer class="gg-footer">
-                <div class="gg-container">
-                    
-                </div>
-            </footer>
+            <!-- Footer Removed -->
         </div>
     </section>
 
