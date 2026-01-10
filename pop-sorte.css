@@ -2741,13 +2741,12 @@ body { font-family: 'Inter', 'Segoe UI', Tahoma, sans-serif; }
 
 /* Ensure content is not obscured by fixed mobile nav on small screens */
 @media (max-width: 767px) {
-  .hero-section,
   .selection-section,
   .rules-section,
   .vld-section,
   .vertical-video-section,
   .popluz-section {
-    padding-bottom: 90px !important;
+    padding-bottom: 70px !important;
   }
 }
 
