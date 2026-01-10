@@ -321,7 +321,6 @@
       border-radius: 8px;
       overflow: visible;
       box-shadow: none;
-      animation: gg-gift-card-float 5s ease-in-out infinite;
       position: relative;
       order: -1;
       isolation: isolate;
@@ -387,10 +386,10 @@
     
     .gg-preview-title h3 {
       font-family: var(--gg-font-display);
-      font-size: 17px;
+      font-size: 20px;
       font-style: normal;
       letter-spacing: 0.1em;
-      color: var(--gg-champagne-bright);
+      color: white;
       text-align: center;
     }
     
@@ -417,11 +416,6 @@
       border: 3px solid var(--gg-champagne-rich);
       box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4), 0 0 30px rgba(212, 168, 83, 0.15);
       transition: 0.4s ease;
-    }
-    
-    .gg-preview-img img:hover {
-      transform: scale(1.03);
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5), 0 0 50px var(--gg-glow-gold);
     }
     
     /* Slider Container for Golden Gala */
@@ -746,7 +740,7 @@
       }
       
       .gg-preview-title h3 {
-        font-size: 14px;
+        font-size: 20px;
       }
       
       .gg-slider-container {
@@ -1445,6 +1439,66 @@
             if (ggSlider) {
                 ggSlider.addEventListener('mouseenter', stopGgAutoSlide);
                 ggSlider.addEventListener('mouseleave', startGgAutoSlide);
+            }
+            
+            // Touch/Swipe functionality
+            const ggSliderViewport = document.querySelector('.gg-slider-viewport');
+            let ggTouchStartX = 0;
+            let ggTouchEndX = 0;
+            let ggIsSwiping = false;
+            
+            function handleGgTouchStart(e) {
+                ggTouchStartX = e.touches[0].clientX;
+                ggIsSwiping = false;
+                stopGgAutoSlide();
+            }
+            
+            function handleGgTouchMove(e) {
+                if (!ggTouchStartX) return;
+                const currentX = e.touches[0].clientX;
+                const diffX = ggTouchStartX - currentX;
+                
+                // If swipe distance is significant, mark as swiping
+                if (Math.abs(diffX) > 10) {
+                    ggIsSwiping = true;
+                    // Prevent scrolling while swiping
+                    e.preventDefault();
+                }
+            }
+            
+            function handleGgTouchEnd(e) {
+                if (!ggTouchStartX || !ggIsSwiping) {
+                    ggTouchStartX = 0;
+                    startGgAutoSlide();
+                    return;
+                }
+                
+                ggTouchEndX = e.changedTouches[0].clientX;
+                const diffX = ggTouchStartX - ggTouchEndX;
+                const minSwipeDistance = 50; // Minimum distance for a swipe
+                
+                if (Math.abs(diffX) > minSwipeDistance) {
+                    if (diffX > 0) {
+                        // Swipe left - next slide
+                        nextGgSlide();
+                    } else {
+                        // Swipe right - previous slide
+                        ggCurrentSlide = (ggCurrentSlide - 1 + ggSlideCount) % ggSlideCount;
+                        goToGgSlide(ggCurrentSlide);
+                    }
+                }
+                
+                ggTouchStartX = 0;
+                ggTouchEndX = 0;
+                ggIsSwiping = false;
+                startGgAutoSlide();
+            }
+            
+            // Add touch event listeners
+            if (ggSliderViewport) {
+                ggSliderViewport.addEventListener('touchstart', handleGgTouchStart, { passive: false });
+                ggSliderViewport.addEventListener('touchmove', handleGgTouchMove, { passive: false });
+                ggSliderViewport.addEventListener('touchend', handleGgTouchEnd);
             }
             
             // Initialize slider if section is already visible
