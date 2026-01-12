@@ -414,7 +414,7 @@ async function fetchAndPopulateResults() {
         }
 
         // Add winners directly into marqueeBalls to ensure they are visible and looped
-        if (winners && winners.length > 0) {
+        if (winners && winners.length > 0 && !winners.lowerMatches) {
             const sep = document.createElement('span');
             sep.innerHTML = ' 🏆 ';
             sep.style.margin = '0 10px';
@@ -483,6 +483,20 @@ async function fetchAndPopulateResults() {
 
                 marqueeBalls.appendChild(winTag);
             });
+        } else if (winners && winners.lowerMatches) {
+            // Show special message for 2-match or 1-match winners
+            const lowerMatches = winners.lowerMatches;
+            const maxMatches = lowerMatches.two > 0 ? 2 : 1;
+            const sep = document.createElement('span');
+            sep.innerHTML = ' 🏆 ';
+            sep.style.margin = '0 10px';
+            sep.style.fontWeight = 'bold';
+            marqueeBalls.appendChild(sep);
+
+            const specialMsg = document.createElement('span');
+            specialMsg.innerHTML = `<span style="color:#ffffff; font-weight:700; font-size:0.95rem;">O maior número de acertos foi ${maxMatches}! Temos muitos vencedores! Parabéns! 🎉</span>`;
+            specialMsg.style.marginLeft = '8px';
+            marqueeBalls.appendChild(specialMsg);
         } else {
             // No winners yet - show default message
             const noWinnersMsg = document.createElement('span');
@@ -491,8 +505,9 @@ async function fetchAndPopulateResults() {
             marqueeBalls.appendChild(noWinnersMsg);
         }
 
-        // UPDATE WINNERS CAROUSEL
-        updateWinnersCarousel(winners, nums);
+        // UPDATE WINNERS CAROUSEL (only if there are actual 3+ match winners)
+        const actualWinners = winners && winners.lowerMatches ? [] : winners;
+        updateWinnersCarousel(actualWinners, nums);
 
         startMarquee();
     };
@@ -597,6 +612,15 @@ async function fetchAndPopulateResults() {
         void marqueeContent.offsetWidth;
         void clone.offsetWidth;
 
+        // Calculate fixed speed: 100 pixels per second (adjustable)
+        const SPEED_PX_PER_SEC = 125;
+        const contentWidth = marqueeContent.offsetWidth;
+        const duration = contentWidth / SPEED_PX_PER_SEC;
+
+        // Set animation duration dynamically based on content width
+        marqueeContent.style.animation = `marquee-continuous ${duration}s linear infinite`;
+        clone.style.animation = `marquee-continuous ${duration}s linear infinite`;
+
         marqueeContent.classList.add('is-animating');
         clone.classList.add('is-animating');
     };
@@ -693,6 +717,7 @@ async function fetchAndPopulateResults() {
                     //          Both platforms' top-tier winners are displayed
                     const MIN_MATCHES_TO_WIN = 3;
                     const allPotentialWinners = [];
+                    const lowerMatches = { one: 0, two: 0 }; // Track 1-match and 2-match counts
                     
                     entries.forEach(entry => {
                         if (!isValidEntry(entry)) return;
@@ -705,6 +730,10 @@ async function fetchAndPopulateResults() {
                                 matches: matches,
                                 matchedNumbers: entry.chosenNumbers.filter(n => winningNumbers.includes(n))
                             });
+                        } else if (matches === 2) {
+                            lowerMatches.two++;
+                        } else if (matches === 1) {
+                            lowerMatches.one++;
                         }
                     });
 
@@ -735,6 +764,11 @@ async function fetchAndPopulateResults() {
                         if (a.platform !== b.platform) return a.platform.localeCompare(b.platform);
                         return a.gameId.localeCompare(b.gameId);
                     });
+
+                    // Store lower matches info for display if no 3+ winners
+                    if (winners.length === 0 && (lowerMatches.two > 0 || lowerMatches.one > 0)) {
+                        winners.lowerMatches = lowerMatches;
+                    }
                 }
             }
         } catch (e) {

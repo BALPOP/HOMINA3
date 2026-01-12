@@ -117,7 +117,7 @@ body { font-family: 'Inter', 'Segoe UI', Tahoma, sans-serif; }
 .sticky-info {
   position: sticky;
   top: 0;
-  z-index: 1200;
+  z-index: 2200;
   background: linear-gradient(180deg, #f9fafb 0%, #eef2ff 100%);
   box-shadow: 0 10px 30px rgba(0,0,0,0.12);
   border-bottom: 3px solid transparent;
@@ -483,7 +483,7 @@ body { font-family: 'Inter', 'Segoe UI', Tahoma, sans-serif; }
 .results-marquee.sticky-marquee {
   position: sticky;
   bottom: 0;
-  z-index: 1100;
+  z-index: 2100;
   box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.3);
   border-top: 3px solid transparent;
   background-image: 
@@ -529,7 +529,7 @@ body { font-family: 'Inter', 'Segoe UI', Tahoma, sans-serif; }
 }
 
 .marquee-content.is-animating {
-  animation: marquee-continuous 35s linear infinite;
+  animation: marquee-continuous 35s linear infinite; /* Fallback duration, will be overridden by inline style */
 }
 
 @keyframes marquee-continuous {

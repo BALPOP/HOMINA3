@@ -1751,6 +1751,8 @@ window.UnifiedPage = (function () {
             document.getElementById('stat5Matches').textContent = (stats.byTier?.[5] || 0).toLocaleString();
             document.getElementById('stat4Matches').textContent = (stats.byTier?.[4] || 0).toLocaleString();
             document.getElementById('stat3Matches').textContent = (stats.byTier?.[3] || 0).toLocaleString();
+            document.getElementById('stat2Matches').textContent = (stats.byTier?.[2] || 0).toLocaleString();
+            document.getElementById('stat1Match').textContent = (stats.byTier?.[1] || 0).toLocaleString();
             document.getElementById('statWinnersTotal').textContent = (stats.totalWinners || 0).toLocaleString();
 
             // Prize pool label
@@ -1797,11 +1799,11 @@ window.UnifiedPage = (function () {
                 : '<span class="text-muted">Winning numbers not available</span>';
 
             const tierCounts = [];
-            for (let tier = 5; tier >= 3; tier--) {
+            for (let tier = 5; tier >= 1; tier--) {
                 const count = contest.byTier[tier]?.filter(w => w.isValidEntry).length || 0;
                 if (count > 0) {
-                    const emoji = tier === 5 ? '🏆' : tier === 4 ? '🥈' : '🥉';
-                    tierCounts.push(`<span class="badge badge-${tier === 5 ? 'warning' : tier === 4 ? 'info' : 'success'}">${emoji} ${tier}: ${count}</span>`);
+                    const emoji = tier === 5 ? '🏆' : tier === 4 ? '🥈' : tier === 3 ? '🥉' : tier === 2 ? '🎖️' : '🎗️';
+                    tierCounts.push(`<span class="badge badge-${tier === 5 ? 'warning' : tier === 4 ? 'info' : tier === 3 ? 'success' : tier === 2 ? 'secondary' : 'secondary'}">${emoji} ${tier}: ${count}</span>`);
                 }
             }
 
@@ -1881,6 +1883,8 @@ window.UnifiedPage = (function () {
                 case 5: matchBadge = '<span class="badge" style="background:#fbbf24;color:#000">🏆 5</span>'; break;
                 case 4: matchBadge = '<span class="badge" style="background:#9ca3af;color:#000">🥈 4</span>'; break;
                 case 3: matchBadge = '<span class="badge" style="background:#d97706;color:#fff">🥉 3</span>'; break;
+                case 2: matchBadge = '<span class="badge" style="background:#8b5cf6;color:#fff">🎖️ 2</span>'; break;
+                case 1: matchBadge = '<span class="badge" style="background:#06b6d4;color:#fff">🎗️ 1</span>'; break;
                 default: matchBadge = `<span class="badge badge-info">${winner.matches}</span>`;
             }
 
