@@ -37,7 +37,7 @@ window.WinnersPage = (function() {
                 <!-- Header -->
                 <div class="section-header mb-4">
                     <h2 class="section-title">🏆 Winners</h2>
-                    <p class="text-muted">Prizes cascade to highest tier with winners (5→4→3→2→1 matches)</p>
+                    <p class="text-muted">Entries with 1+ matching numbers</p>
                 </div>
 
                 <!-- Summary Stats -->
@@ -59,8 +59,8 @@ window.WinnersPage = (function() {
                         <span class="stat-value" id="stat2Matches">--</span>
                     </div>
                     <div class="stat-card" style="border-left-color: #06b6d4;">
-                        <span class="stat-label">🎗️ 1 Match</span>
-                        <span class="stat-value" id="stat1Match">--</span>
+                        <span class="stat-label">🎫 1 Match</span>
+                        <span class="stat-value" id="stat1Matches">--</span>
                     </div>
                     <div class="stat-card success">
                         <span class="stat-label">Total Winners</span>
@@ -137,7 +137,7 @@ window.WinnersPage = (function() {
         document.getElementById('stat4Matches').textContent = (stats.byTier?.[4] || 0).toLocaleString();
         document.getElementById('stat3Matches').textContent = (stats.byTier?.[3] || 0).toLocaleString();
         document.getElementById('stat2Matches').textContent = (stats.byTier?.[2] || 0).toLocaleString();
-        document.getElementById('stat1Match').textContent = (stats.byTier?.[1] || 0).toLocaleString();
+        document.getElementById('stat1Matches').textContent = (stats.byTier?.[1] || 0).toLocaleString();
         document.getElementById('statTotalWinners').textContent = (stats.totalWinners || 0).toLocaleString();
     }
 
@@ -237,7 +237,7 @@ window.WinnersPage = (function() {
                 case 4: matchBadge = '<span class="badge" style="background:#9ca3af;color:#000">🥈 4</span>'; break;
                 case 3: matchBadge = '<span class="badge" style="background:#d97706;color:#fff">🥉 3</span>'; break;
                 case 2: matchBadge = '<span class="badge" style="background:#8b5cf6;color:#fff">🎖️ 2</span>'; break;
-                case 1: matchBadge = '<span class="badge" style="background:#06b6d4;color:#fff">🎗️ 1</span>'; break;
+                case 1: matchBadge = '<span class="badge" style="background:#06b6d4;color:#fff">🎫 1</span>'; break;
                 default: matchBadge = `<span class="badge badge-info">${matchCount}</span>`;
             }
             

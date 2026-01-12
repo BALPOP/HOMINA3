@@ -34,7 +34,7 @@ window.WinnerCalculator = (function() {
     const DEFAULT_PRIZE_POOL = 1000;
     
     /**
-     * Minimum matches to qualify as a winner (1+ matches = winner, but prizes cascade to highest tier)
+     * Minimum matches to qualify as a winner (1+ matches = winner)
      */
     const MIN_MATCHES_TO_WIN = 1;
 
@@ -58,14 +58,14 @@ window.WinnerCalculator = (function() {
     const INVALID_STATUSES = ['INVALID', 'INVÁLIDO', 'REJECTED', 'CANCELLED'];
     
     /**
-     * Prize tier names (prizes cascade to highest tier with winners)
+     * Prize tier names (1+ matches = winner)
      */
     const PRIZE_TIERS = {
         5: { name: 'Jackpot', emoji: '🏆', label: '5 matches', isWinner: true },
         4: { name: '2nd Prize', emoji: '🥈', label: '4 matches', isWinner: true },
         3: { name: '3rd Prize', emoji: '🥉', label: '3 matches', isWinner: true },
         2: { name: '4th Prize', emoji: '🎖️', label: '2 matches', isWinner: true },
-        1: { name: '5th Prize', emoji: '🎗️', label: '1 match', isWinner: true }
+        1: { name: '5th Prize', emoji: '🎫', label: '1 match', isWinner: true }
     };
 
     // ============================================
@@ -166,9 +166,8 @@ window.WinnerCalculator = (function() {
         winners.sort((a, b) => b.matches - a.matches);
         
         // Determine winning tier (highest tier with valid winners)
-        // Checks tiers 5, 4, 3, 2, 1 in descending order
         let winningTier = 0;
-        for (let tier = 5; tier >= 1; tier--) {
+        for (let tier = 5; tier >= MIN_MATCHES_TO_WIN; tier--) {
             const validWinners = byTier[tier].filter(w => w.isValidEntry);
             if (validWinners.length > 0) {
                 winningTier = tier;
